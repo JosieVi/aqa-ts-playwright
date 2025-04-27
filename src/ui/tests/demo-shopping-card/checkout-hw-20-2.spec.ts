@@ -1,17 +1,4 @@
-/*
-- Открыть url https://anatoly-karpovich.github.io/demo-shopping-cart/
-  - Добавить продукты 2,4,6,8,10
-  - Завалидировать бейдж с количеством
-  - Открыть чекаут
-  - Завалидировать сумму и продукты
-  - Ввести все найденные вами промокоды (вспоминаем первую лекцию)
-  - Завалидировать конечную сумму
-  - Зачекаутиться
-  - Завалидировать сумму
-*/
-
 import { test, expect, Page, Locator } from '@playwright/test';
-import { time } from 'console';
 
 const URL = 'https://anatoly-karpovich.github.io/demo-shopping-cart/';
 const totalDiscount = 0.45;
