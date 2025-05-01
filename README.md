@@ -58,7 +58,7 @@
 
 ### Task 1 HW-20: Разработка теста
 
- Создать тест сьют используя DDT подход с негативными тест-кейсами по регистрации на сайте
+Создать тест сьют используя DDT подход с негативными тест-кейсами по регистрации на сайте
 https://anatoly-karpovich.github.io/demo-login-form/
 
 ## Требования:
@@ -94,7 +94,7 @@ https://anatoly-karpovich.github.io/demo-login-form/
   - click on login button method
 
 ### Task 2 HW-21: Разработка теста
-Разработать е2е теста со следующими шагами:
+Разработать е2е тест со следующими шагами:
  - Открыть url https://anatoly-karpovich.github.io/aqa-course-project/#
  - Войти в приложения используя ваши учетные данные 
  - Создать покупателя (модуль Customers)

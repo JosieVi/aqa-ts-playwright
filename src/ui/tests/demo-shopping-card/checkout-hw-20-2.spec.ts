@@ -2,7 +2,7 @@ import { test, expect, Page, Locator } from '@playwright/test';
 
 const URL = 'https://anatoly-karpovich.github.io/demo-shopping-cart/';
 const totalDiscount = 0.45;
-let PRODUCTS = [2, 4, 6, 8, 10];
+let PRODUCTNUMBERS = [2, 4, 6, 8, 10];
 const promocodes = {
     'CODE5': '5-PERCENT-FOR-UTILS',
     'CODE7': 'JAVA-FOR-BOOMERS',
@@ -19,15 +19,20 @@ interface ICartProductPrices {
 test.describe('[UI] [Demo Shopping Card] [Checkout] HW20-2', () => {
     test('Should Add Products To Cart', async ({ page }) => {
         await page.goto(URL);
-        for (let productNumber of PRODUCTS) {
+        for (let productNumber of PRODUCTNUMBERS) {
             await addToCardButton(`Product ${productNumber}`, page).click();
         }
-        await expect(page.locator('.badge')).toHaveText(PRODUCTS.length.toString());
+        await addToCardButton([`Product ${productNumber}`, `Product ${productNumber}`, page).click()
+
+
+
+
+        await expect(page.locator('.badge')).toHaveText(PRODUCTNUMBERS.length.toString());
         await page.getByRole('button', { name: 'Shopping cart' }).click();
-        await expect(page.locator('[data-product-id]')).toHaveCount(PRODUCTS.length);
+        await expect(page.locator('[data-product-id]')).toHaveCount(PRODUCTNUMBERS.length);
 
         let cartProductPrices: ICartProductPrices = {};
-        for (let productNumber of PRODUCTS) {
+        for (let productNumber of PRODUCTNUMBERS) {
             await expect(getCartProductLocator(`Product ${productNumber}`, page)).toBeVisible();
             let currentProductPrice = await getProductPrice(`Product ${productNumber}`, page);
             cartProductPrices = { ...cartProductPrices, [`Product ${productNumber}`]: currentProductPrice };
@@ -48,8 +53,10 @@ test.describe('[UI] [Demo Shopping Card] [Checkout] HW20-2', () => {
     });
 });
 
-function addToCardButton(product: string, page: Page): Locator {
-    return page.locator('div.card-body').filter({ has: page.getByText(`${product}`) }).getByRole('button', { name: 'Add to card' });
+function addToCardButton(product: string[], page: Page): void {
+    for (let i = 0; i < product.length; i++) {
+        page.locator('div.card-body').filter({ has: page.getByText(`${product}`) }).getByRole('button', { name: 'Add to card' }).click();
+    }
 }
 
 function getCartProductLocator(product: string, page: Page): Locator {
@@ -69,4 +76,3 @@ async function inputPromoCode(page: Page, promocode: string): Promise<void> {
     await expect(page.locator('#rebates-container li').getByText(promocode)).toBeVisible();
 
 }
-
