@@ -1,7 +1,7 @@
 import test, { expect } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { USER_LOGIN, USER_PASSWORD } from "config/enviroment";
-import { STATUS_CODES } from "data/status-code.data";
+import { STATUS_CODES } from "data/status-codes.data";
 import { validateSchema } from "utils/validations/schema-validation";
 import { generateCustomerData } from "data/customers/generate-customer.data";
 import { allCustomersSchema } from "data/schemas/customers/all-customers.schema";
