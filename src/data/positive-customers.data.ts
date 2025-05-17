@@ -7,7 +7,7 @@ export const positiveTestCases = [
         expectedError: null,
     },
     {
-        name: "Create customer with invalid notes",
+        name: "Create customer with empty notes",
         data: generateCustomerData({ notes: "" }),
         expectedError: null,
     },

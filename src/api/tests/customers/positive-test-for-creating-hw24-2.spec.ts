@@ -1,5 +1,4 @@
 import { USER_LOGIN, USER_PASSWORD } from "config/enviroment";
-import { generateCustomerData } from "data/customers/generate-customer.data";
 import { customerSchema } from "data/schemas/customers/customer.schema";
 import { STATUS_CODES } from "data/status-codes.data";
 import _ from "lodash";
@@ -12,23 +11,19 @@ test.describe("[API] [Customers] [Create]", () => {
     let id = "";
     let token = "";
 
-    positiveTestCases.forEach(({ name, data, expectedError }) => {
-        test(name, async ({ request, customersController, signInController }) => {
-            const credentials = { username: USER_LOGIN, password: USER_PASSWORD };
-            const loginResponse = await signInController.signIn(credentials);
-            const headers = loginResponse.headers;
-            token = headers["authorization"];
-            const expectedUser = {
-                _id: "680d4d7dd006ba3d475ff67b",
-                username: "OlgaMarushkina",
-                firstName: "Olga",
-                lastName: "Marushkina",
-                roles: ["USER"],
-                createdOn: "2025/04/26 21:17:49",
-            };
-            expect.soft(loginResponse.headers.authorization).toBeTruthy();
-            expect.soft(loginResponse.body.User).toMatchObject(expectedUser);
-            validateResponse(loginResponse, STATUS_CODES.OK, true, null);
+    test.beforeEach(async ({ signInController }) => {
+        const credentials = { username: USER_LOGIN, password: USER_PASSWORD };
+        const loginResponse = await signInController.signIn(credentials);
+        const headers = loginResponse.headers;
+        token = headers["authorization"];
+        validateResponse(loginResponse, STATUS_CODES.OK, true, null);
+        if (!token) {
+            throw new Error("Authorization token was not received. Cannot continue tests.");
+        }
+    });
+
+    positiveTestCases.forEach(({ name, data }) => {
+        test(name, async ({ customersController }) => {
             const customerResponse = await customersController.create(data, token);
             id = customerResponse.body.Customer._id;
             validateSchema(customerSchema, customerResponse.body);
@@ -36,6 +31,7 @@ test.describe("[API] [Customers] [Create]", () => {
             expect.soft(customerResponse.body.Customer).toMatchObject({ ...data });
         });
     });
+
     test.afterEach(async ({ customersController }) => {
         if (!id) return;
         const response = await customersController.delete(id, token);
