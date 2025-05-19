@@ -4,8 +4,8 @@ import { USER_LOGIN, USER_PASSWORD } from "config/enviroment";
 import { STATUS_CODES } from "data/status-codes.data";
 import { validateSchema } from "utils/validations/schema-validation";
 import { generateCustomerData } from "data/customers/generate-customer.data";
+import { ICustomerFromResponse } from "types/customer.types";
 import { allCustomersSchema } from "data/schemas/customers/all-customers.schema";
-import _ from "lodash";
 
 test.describe("[API] [Customers] Smoke Test", () => {
     test('Get all customers and check schema', async ({ request }) => {
