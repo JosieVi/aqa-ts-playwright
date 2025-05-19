@@ -123,6 +123,50 @@ https://anatoly-karpovich.github.io/demo-login-form/
 - Подключить модалку в PageObject страницы Customers
 - Использовать фикстуры
 
+### Task 1 HW-23: Smoke API test
+
+Написать смоук API тест на логин:
+  - Создать и проверить схему
+  - Проверить статус
+  - Проверить наличие токена в хедерах
+
+### Task 2 HW-23: Smoke API test
+
+Написать смоук API тест на получение всех кастомеров (без фильтрационных параметров) со следующими шагами:
+  - Залогиниться
+  - Создать кастомера и проверить 200й статус
+  - Получить всех кастомеров
+  - Создать и проверить схему
+  - Проверить статус
+  - Проверить, что в массиве тела респонса есть созданный кастомер
+  - Проверить поля IsSuccess и ErrorMessage
+
+### Task 1 HW-24: Create a controller
+
+Реализовать SignInController по аналогии с CustomersController и использовать его во всех уже написанных АПИ тестах
+
+### Task 2 HW-24: Smoke API test
+
+Используя DDT подход, напишите тест сьют для проверки эндпоинта создания покупателя:
+  - с позитивными проверками
+  - с негативными проверками
+
+Используйте SignInConroller, CustomersController, после каждого теста, где создастся кастомер - удаляйте его.
+
+  Требования:
+  - Email: обязательное, уникальный
+  - Name: обязательное, Customer's name should contain only 1-40 alphabetical characters and one space between
+  - Country: обязательное, ['USA', 'Canada', 'Belarus', 'Ukraine', 'Germany', 'France', 'Great Britain', 'Russia']
+  - City: обязательное, City's name should contain only 1-20 alphabetical characters and one space between
+  - Street: обязательное, Street should contain only 1-40 alphanumerical characters and one space between
+  - House: обязательное, House number should be in range 1-999
+  - Flat: обязательное, Flat number should be in range 1-9999
+  - Phone: обязательное, Mobile Number should be at least 10 characters (max 20) and start with a +
+  - Notes: Notes should be in range 0-250 and without < or > symbols
+
+
+
+
 
 
 
