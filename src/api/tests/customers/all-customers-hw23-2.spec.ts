@@ -4,8 +4,8 @@ import { USER_LOGIN, USER_PASSWORD } from "config/enviroment";
 import { STATUS_CODES } from "data/status-codes.data";
 import { validateSchema } from "utils/validations/schema-validation";
 import { generateCustomerData } from "data/customers/generate-customer.data";
+import { ICustomerFromResponse } from "types/customer.types";
 import { allCustomersSchema } from "data/schemas/customers/all-customers.schema";
-import _ from "lodash";
 
 test.describe("[API] [Customers] Smoke Test", () => {
     test('Get all customers and check schema', async ({ request }) => {
@@ -34,19 +34,21 @@ test.describe("[API] [Customers] Smoke Test", () => {
         expect.soft(customerResponse.status()).toBe(STATUS_CODES.CREATED);
         const customerBody = await customerResponse.json();
 
-        const customersResponse = await request.get(apiConfig.BASE_URL + apiConfig.ENDPOINTS.CUSTOMERS, {
+        const allCustomersResponse = await request.get(apiConfig.BASE_URL + apiConfig.ENDPOINTS.CUSTOMERS, {
             headers: {
                 "content-type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         });
-        expect.soft(customersResponse.status()).toBe(STATUS_CODES.OK);
-        const responseBody = await customersResponse.json();
-        validateSchema(allCustomersSchema, responseBody);
 
-        expect.soft({ ...customerData }).toMatchObject(_.omit(customerBody.Customer, "_id", "createdOn"));
-        expect.soft(responseBody.ErrorMessage).toBe(null);
-        expect.soft(responseBody.IsSuccess).toBe(true);
+        expect.soft(allCustomersResponse.status()).toBe(STATUS_CODES.OK);
+        const allCustomersBody = await allCustomersResponse.json();
+        validateSchema(allCustomersSchema, allCustomersBody);
+
+        const createdCustomerFromResponse = allCustomersBody.Customers.find((el: ICustomerFromResponse) => el.email === customerBody.Customer.email)
+        expect.soft(createdCustomerFromResponse).toMatchObject(customerBody.Customer);
+        expect.soft(allCustomersBody.ErrorMessage).toBe(null);
+        expect.soft(allCustomersBody.IsSuccess).toBe(true);
 
         const deleteResponse = await request.delete(apiConfig.BASE_URL + apiConfig.ENDPOINTS.CUSTOMER_BY_ID(customerBody.Customer._id), {
             headers: {
