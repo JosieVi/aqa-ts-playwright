@@ -1,5 +1,3 @@
-import { ICustomerFromResponse, ICustomerResponse } from "./customer.types";
-
 export interface IRequestOptions {
     baseURL?: string;
     url: string;
@@ -8,7 +6,7 @@ export interface IRequestOptions {
     headers?: Record<string, string>;
 }
 
-export interface IResponse<T extends Object | null> {
+export interface IResponse<T extends object | null> {
     status: number;
     // headers: object;
     headers: Record<string, string>;
@@ -30,3 +28,7 @@ export interface ILoginResponseBody extends IResponseFields {
         createdOn: string;
     };
 }
+
+export type sortDirection = "asc" | "desc";
+
+export type customersSortField = "createdOn" | "email" | "name" | "country";

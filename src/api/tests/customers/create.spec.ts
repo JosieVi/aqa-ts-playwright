@@ -50,8 +50,6 @@ test.describe("[API] [Customers] [Create]", () => {
         const customerBody = await customerResponse.json();
 
         id = customerBody.Customer._id;
-        console.log("loginSchema", customerSchema);
-        console.log("loginResponse", customerBody);
         validateSchema(customerSchema, customerBody);
         expect.soft(customerResponse.status()).toBe(STATUS_CODES.CREATED);
         // expect.soft(customerBody.Customer).toMatchObject({ ...customerData });
@@ -67,9 +65,8 @@ test.describe("[API] [Customers] [Create]", () => {
         expect.soft(response.status()).toBe(STATUS_CODES.DELETED);
     });
 
-
     test("Create customer with smoke data and Controller", async ({ request, customersController, signInController }) => {
-        const credentials = { username: USER_LOGIN, password: USER_PASSWORD };
+        const credentials = { email: USER_LOGIN, password: USER_PASSWORD };
         const loginResponse = await signInController.signIn(credentials);
         const headers = loginResponse.headers;
         token = headers["authorization"];
