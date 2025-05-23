@@ -15,6 +15,7 @@ export class CustomerDetailsPage extends SalesPortalPage {
     registrationDate = this.page.locator("#customer-created-on");
     uniqueElement = this.registrationDate;
 
+    // Вызов метода из браузера для открытия страницы из любой точки проекта
     async open(id: string) {
         await this.page.evaluate(async (id: string) => {
             await (

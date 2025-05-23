@@ -3,6 +3,7 @@ import { Page } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { STATUS_CODES } from "data/status-codes.data";
 import { ICustomerResponse, ICustomersResponse, IMetricsFromResponse } from "types/customer.types";
+import { MockFixture } from "types/mock.types";
 
 export class Mock {
     constructor(private page: Page) { }
@@ -37,15 +38,6 @@ export class Mock {
             });
         });
     }
-}
-
-export interface ISortingMockOptions {
-    sortField: string;
-    sortDir: string;
-}
-
-export interface MockFixture {
-    mock: Mock;
 }
 
 export const test = base.extend<MockFixture>({

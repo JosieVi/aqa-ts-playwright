@@ -164,7 +164,32 @@ https://anatoly-karpovich.github.io/demo-login-form/
   - Phone: обязательное, Mobile Number should be at least 10 characters (max 20) and start with a +
   - Notes: Notes should be in range 0-250 and without < or > symbols
 
+### Task 1 HW-25: Integration tests
 
+Создайте 3 интеграционных теста для проверки следующих метрик на странице Home:
+1. Orders This Year
+2. New Customers
+3. Canceled Orders
+
+Для реализации подмокивайте респонс эндпоинта metrics
+
+  - Orders This Year: Metrics.orders.totalOrders
+  - New Customers: Metrics.customers.customers
+  - Canceled Orders: Metrics.orders.totalCanceledOrders
+
+Остальной объект оставьте как есть сейчас в респонсе, замените просто на ваши данные в метриках нужных
+
+### Task 1 HW-26: E2E test
+
+Реализовать E2E тест по созданию продукта (модуль Products) по аналогии c Customers с шагами
+  - залогиниться
+  - Перейти на страницу Products List
+  - Перейти на страницу Add New Product
+  - Заполнить поля валидными данными
+  - Сохранить продукт
+  - Проверить наличие продукта в таблице
+
+Требования найдете в валидационных сообщениях на фронте:) Уникальное поле - Имя
 
 
 
