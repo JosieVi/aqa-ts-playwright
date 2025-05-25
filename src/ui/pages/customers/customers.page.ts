@@ -5,6 +5,7 @@ import { FilterModal } from "../modals/customers/filter.modal";
 import { DeleteCustomerModal } from "../modals/customers/delete.modal";
 import { COUNTRIES } from "data/customers/countries.data";
 import { customersSortField } from "types/api.types";
+import { logStep } from "utils/reporter.utils";
 
 export class CustomersPage extends SalesPortalPage {
     //Modals
@@ -41,7 +42,7 @@ export class CustomersPage extends SalesPortalPage {
     readonly deleteButton = (email: string) => this.tableRowByEmail(email).getByTitle("Delete");
     readonly emptyTableRow = this.page.locator("td.fs-italic");
 
-    uniqueElement = this.addNewCustomerButton;
+    readonly uniqueElement = this.addNewCustomerButton;
 
     async open() {
         await this.page.evaluate(async () => {
@@ -49,6 +50,7 @@ export class CustomersPage extends SalesPortalPage {
         });
     }
 
+    @logStep("Click on Add New Customer button")
     async clickAddNewCustomer() {
         await this.addNewCustomerButton.click();
     }
@@ -71,14 +73,17 @@ export class CustomersPage extends SalesPortalPage {
         await buttons[action].click();
     }
 
-    async getCustomerDataByEmail(customerEmail: string): Promise<ICustomerInTable> {
-        const [email, name, country, createdOn] = await this.tableRowByEmail(customerEmail).locator("td").allInnerTexts();
-        return {
-            email,
-            name,
-            country: country as COUNTRIES,
-        };
-    }
+    // УБРАТЬ
+
+    // async getCustomerDataByEmail(customerEmail: string): Promise<ICustomerInTable> {
+
+    //     const [email, name, country, createdOn] = await this.tableRowByEmail(customerEmail).locator("td").allInnerTexts();
+    //     return {
+    //         email,
+    //         name,
+    //         country: country as COUNTRIES,
+    //     };
+    // }
 
     async getCustomerData(customerEmail: string): Promise<ICustomerInTable> {
         //variant 1

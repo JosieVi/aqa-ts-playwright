@@ -1,5 +1,6 @@
 import { COUNTRIES } from "data/customers/countries.data";
 import { customersSortField, IResponseFields, sortDirection } from "./api.types";
+import { IProductFromResponse } from "./products.types";
 
 export interface ICustomer {
     email: string;
@@ -77,7 +78,7 @@ export interface IOrder {
     _id: string;
     status: string;
     customer: ICustomerFromResponse;
-    products: IProduct[];
+    products: IProductFromResponse[];
     delivery: any;
     total_price: number;
     createdOn: string;
@@ -87,20 +88,11 @@ export interface IOrder {
 }
 
 
-export interface IProduct {
-    _id: string;
-    name: string;
-    amount: number;
-    price: number;
-    manufacturer: string;
-    notes: string;
-    received: boolean;
-}
 
 export interface IOrderHistory {
     status: string;
     customer: string;
-    products: IProduct[];
+    products: IProductFromResponse[];
     total_price: number;
     delivery: any;
     changedOn: string;

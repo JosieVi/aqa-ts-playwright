@@ -5,8 +5,9 @@ import { customerSchema } from "data/schemas/customers/customer.schema";
 import { STATUS_CODES } from "data/status-codes.data";
 import _ from "lodash";
 import { validateSchema } from "utils/validations/schema-validation";
-import { test, expect } from "fixtures/controllers.fixture";
+// import { test, expect } from "fixtures/controllers.fixture";
 import { validateResponse } from "utils/validations/response-validation";
+import { test, expect } from "fixtures/ui-services.fixture";
 
 
 test.describe("[API] [Customers] [Create]", () => {
@@ -65,22 +66,25 @@ test.describe("[API] [Customers] [Create]", () => {
         expect.soft(response.status()).toBe(STATUS_CODES.DELETED);
     });
 
-    test("Create customer with smoke data and Controller", async ({ request, customersController, signInController }) => {
-        const credentials = { email: USER_LOGIN, password: USER_PASSWORD };
-        const loginResponse = await signInController.signIn(credentials);
-        const headers = loginResponse.headers;
-        token = headers["authorization"];
-        const expectedUser = {
-            _id: "680d4d7dd006ba3d475ff67b",
-            username: "OlgaMarushkina",
-            firstName: "Olga",
-            lastName: "Marushkina",
-            roles: ["USER"],
-            createdOn: "2025/04/26 21:17:49",
-        };
-        expect.soft(loginResponse.headers.authorization).toBeTruthy();
-        expect.soft(loginResponse.body.User).toMatchObject(expectedUser);
-        validateResponse(loginResponse, STATUS_CODES.OK, true, null);
+    test("Create customer with smoke data and Controller", async ({ request, customersController, signInApiService }) => {
+        // test("Create customer with smoke data and Controller", async ({ signInApiService, customersController }) => {
+        // const credentials = { email: USER_LOGIN, password: USER_PASSWORD };
+        // const loginResponse = await signInController.signIn(credentials);
+        // const headers = loginResponse.headers;
+        // token = headers["authorization"];
+        // const expectedUser = {
+        //     _id: "680d4d7dd006ba3d475ff67b",
+        //     username: "OlgaMarushkina",
+        //     firstName: "Olga",
+        //     lastName: "Marushkina",
+        //     roles: ["USER"],
+        //     createdOn: "2025/04/26 21:17:49",
+        // };
+        // expect.soft(loginResponse.headers.authorization).toBeTruthy();
+        // expect.soft(loginResponse.body.User).toMatchObject(expectedUser);
+        // validateResponse(loginResponse, STATUS_CODES.OK, true, null);
+
+        token = await signInApiService.loginAsLocalUser();
 
         const customerData = generateCustomerData();
         const customerResponse = await customersController.create(customerData, token);

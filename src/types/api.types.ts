@@ -18,6 +18,9 @@ export interface IResponseFields {
     ErrorMessage: string | null;
 }
 
+
+
+// ???
 export interface ILoginResponseBody extends IResponseFields {
     User: {
         _id: string;

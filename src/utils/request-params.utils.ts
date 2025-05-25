@@ -1,3 +1,12 @@
+/**
+ * Converts an object of request parameters into a URL query string.
+ *
+ * @param params - An object where keys are parameter names and values are parameter values.
+ *                 Values can be either strings or arrays of strings.
+ * @returns A string representing the URL query parameters, with parameters
+ *          properly encoded and concatenated by '&'. If no parameters are provided,
+ *          returns an empty string.
+ */
 export function convertRequestParams(params: Record<string, string | Array<string>>) {
     if (!params) return "";
     let url = "?";

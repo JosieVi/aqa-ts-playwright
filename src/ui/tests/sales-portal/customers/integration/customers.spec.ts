@@ -1,6 +1,7 @@
 import { apiConfig } from "config/api-config";
 import { COUNTRIES } from "data/customers/countries.data";
-import { expect, test } from "fixtures/business-steps.fixture";
+// import { expect, test } from "fixtures/business-steps.fixture";
+import { expect, test } from "fixtures/ui-services.fixture";
 import { customersSortField, sortDirection } from "types/api.types";
 
 test.describe("[UI] [Customers] [Table component]", async () => {
@@ -24,9 +25,10 @@ test.describe("[UI] [Customers] [Table component]", async () => {
     fields.forEach((field) => {
         directions.forEach((direction) => {
             test(`Should display correct sorting for ${field} field and ${direction} direction`, async ({
-                loginAsLocalUser,
+                // loginAsLocalUser,
                 customersPage,
                 mock,
+                homeUIService,
             }) => {
                 await mock.customers({
                     Customers: [
@@ -42,7 +44,8 @@ test.describe("[UI] [Customers] [Table component]", async () => {
                     },
                 });
 
-                await loginAsLocalUser();
+                // await loginAsLocalUser();
+                await homeUIService.openAsLoggedInUser();
 
                 await customersPage.open();
                 await customersPage.waitForOpened();
@@ -51,8 +54,10 @@ test.describe("[UI] [Customers] [Table component]", async () => {
         });
     });
 
-    test("Should send correct query clicking on Created On header", async ({ loginAsLocalUser, customersPage, page }) => {
-        await loginAsLocalUser();
+    // test("Should send correct query clicking on Created On header", async ({ loginAsLocalUser, customersPage, page }) => {
+    test("Should send correct query clicking on Created On header", async ({ homeUIService, customersPage, page }) => {
+        // await loginAsLocalUser();
+        await homeUIService.openAsLoggedInUser();
         await customersPage.open();
         await customersPage.waitForOpened();
         // const [request] = await Promise.all([

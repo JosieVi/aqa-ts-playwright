@@ -6,18 +6,18 @@ import { ICustomerInTable } from 'types/customer.types';
 import { AddNewCustomerPage } from 'ui/pages/customers/add-new-customer.page';
 import { CustomersPage } from 'ui/pages/customers/customers.page';
 import { HomePage } from 'ui/pages/home.page';
-import { LoginPage } from "ui/pages/login.page";
+import { SignInPage } from 'ui/pages/sign-in.page';
 
 test.describe('[UI] [Sales Portal] [e2e] HW21-2', () => {
     test('Should create a new customer and verify creation notification and table entry', async ({ page }) => {
         //Precondition
-        const loginPage = new LoginPage(page);
+        const signInPage = new SignInPage(page);
         const homePage = new HomePage(page);
         const customersPage = new CustomersPage(page);
         const addNewCustomerPage = new AddNewCustomerPage(page);
         await page.goto(SALES_PORTAL_URL);
-        await loginPage.fillCredentials(USER_LOGIN, USER_PASSWORD);
-        await loginPage.clickLogin();
+        await signInPage.fillCredentials({ email: USER_LOGIN, password: USER_PASSWORD });
+        await signInPage.clickLogin();
         await homePage.waitForOpened();
         await homePage.clickModuleButton('Customers');
         await customersPage.waitForOpened();
