@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { Modal } from "./modal.page";
+import { Modal } from "../modal.page";
 
 export class FilterModal extends Modal {
     readonly uniqueElement = this.page.locator(`div[role="dialog"]`);

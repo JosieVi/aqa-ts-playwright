@@ -1,5 +1,6 @@
 import { COUNTRIES } from "data/customers/countries.data";
-import { IResponseFields } from "./api.types";
+import { customersSortField, IResponseFields, sortDirection } from "./api.types";
+import { IProductFromResponse } from "./products.types";
 
 export interface ICustomer {
     email: string;
@@ -26,4 +27,96 @@ export interface ICustomerResponse extends IResponseFields {
 
 export interface ICustomersResponse extends IResponseFields {
     Customers: ICustomerFromResponse[];
+    sorting: {
+        sortField: customersSortField;
+        sortOrder: sortDirection;
+    };
 }
+
+// HW-25 Task 1
+export interface IMetricsFromResponse {
+    IsSuccess: boolean;
+    Metrics: {
+        orders: {
+            totalRevenue: number;
+            totalOrders: number;
+            averageOrderValue: number;
+            totalCanceledOrders: number;
+            recentOrders: IOrder[];
+            ordersCountPerDay: {
+                date: {
+                    day: number;
+                    month: number;
+                    year: number;
+                };
+                count: number;
+            }[];
+        };
+        customers: {
+            totalNewCustomers: number;
+            topCustomers: ITopCustomer[];
+            customerGrowth: {
+                date: {
+                    day: number;
+                    month: number;
+                    year: number;
+                };
+                count: number;
+            }[];
+        };
+        products: {
+            topProducts: {
+                name: string;
+                sales: number;
+            }[];
+        };
+    };
+    ErrorMessage: string | null;
+}
+
+export interface IOrder {
+    _id: string;
+    status: string;
+    customer: ICustomerFromResponse;
+    products: IProductFromResponse[];
+    delivery: any;
+    total_price: number;
+    createdOn: string;
+    comments: any[];
+    history: IOrderHistory[];
+    assignedManager: IPerformer;
+}
+
+
+
+export interface IOrderHistory {
+    status: string;
+    customer: string;
+    products: IProductFromResponse[];
+    total_price: number;
+    delivery: any;
+    changedOn: string;
+    action: string;
+    performer: IPerformer;
+}
+
+export interface IPerformer {
+    _id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    roles: string[];
+    createdOn: string;
+}
+
+export interface ITopCustomer {
+    _id: string;
+    totalSpent: number;
+    ordersCount: number;
+    customerName: string;
+    customerEmail: string;
+}
+
+
+
+

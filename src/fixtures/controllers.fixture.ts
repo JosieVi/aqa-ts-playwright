@@ -1,18 +1,23 @@
 import { test as base } from "@playwright/test";
-import { CustomersController } from "api/controllers/customer.controller";
+import { CustomersController } from "api/controllers/customers.controller";
+import { ProductsController } from "api/controllers/products.controller";
 import { SignInController } from "api/controllers/sign-in-hw24-1.controller";
 
 interface ISalesPortalControllers {
     customersController: CustomersController;
-    signInController: SignInController;
+    productsController: ProductsController;
+    // signInController: SignInController;
 }
 
 export const test = base.extend<ISalesPortalControllers>({
-    customersController: async ({ }, use) => {
-        await use(new CustomersController());
+    customersController: async ({ request }, use) => {
+        await use(new CustomersController(request));
     },
-    signInController: async ({ }, use) => {
-        await use(new SignInController());
-    },
+    productsController: async ({ request }, use) => {
+        await use(new ProductsController(request));
+    }
+    // signInController: async ({ }, use) => {
+    //     await use(new SignInController);
+    // },
 });
 export { expect } from "@playwright/test";
