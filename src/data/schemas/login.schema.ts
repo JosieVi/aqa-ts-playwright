@@ -1,3 +1,6 @@
+// Description:
+// This schema defines the structure of a login response object, including user details and success status.
+
 export const loginSchema = {
     type: "object",
     properties: {

@@ -4,6 +4,7 @@ import _ from "lodash";
 import { test, expect } from "fixtures/controllers.fixture";
 import { validateResponse } from "utils/validations/response-validation";
 import { negativeTestCases } from "data/negative-customers.data";
+import { TAGS } from "data/test-tags.data";
 
 test.describe("[API] [Customers] [Create]", () => {
     let token = "";
@@ -20,9 +21,11 @@ test.describe("[API] [Customers] [Create]", () => {
     });
 
     negativeTestCases.forEach(({ name, data, expectedError }) => {
-        test(name, async ({ customersController }) => {
-            const customerResponse = await customersController.create(data, token);
-            validateResponse(customerResponse, STATUS_CODES.BAD_REQUEST, false, expectedError);
-        });
+        test(name,
+            { tag: [TAGS.CRITICAL_PATH, TAGS.API] },
+            async ({ customersController }) => {
+                const customerResponse = await customersController.create(data, token);
+                validateResponse(customerResponse, STATUS_CODES.BAD_REQUEST, false, expectedError);
+            });
     });
 });

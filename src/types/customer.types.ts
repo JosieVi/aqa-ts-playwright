@@ -1,3 +1,6 @@
+// Description:
+// These interfaces define the structure of customer-related data, including customer details, responses from the API, and metrics related to customers and orders.
+
 import { COUNTRIES } from "data/customers/countries.data";
 import { customersSortField, IResponseFields, sortDirection } from "./api.types";
 import { IProductFromResponse } from "./products.types";
@@ -87,8 +90,6 @@ export interface IOrder {
     assignedManager: IPerformer;
 }
 
-
-
 export interface IOrderHistory {
     status: string;
     customer: string;
@@ -116,7 +117,3 @@ export interface ITopCustomer {
     customerName: string;
     customerEmail: string;
 }
-
-
-
-

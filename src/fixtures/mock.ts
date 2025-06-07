@@ -1,16 +1,11 @@
-// import { test as base } from "fixtures/api-services.fixture";
-// import { Page } from "@playwright/test";
-// import { apiConfig } from "config/api-config";
-// import { STATUS_CODES } from "data/status-codes.data";
-// import { ICustomerResponse, ICustomersResponse, IMetricsFromResponse } from "types/customer.types";
-// import { MockFixture } from "types/mock.types";
+// Description:
+// This file defines the Mock class for API mocking in Playwright tests, including methods for mocking customers, products, and metrics endpoints.
 
 import { Page } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { STATUS_CODES } from "data/status-codes.data";
 import { ICustomersResponse, ICustomerResponse, IMetricsFromResponse } from "types/customer.types";
 import { IProductsResponse, IProductResponse } from "types/products.types";
-
 
 export class Mock {
     constructor(private page: Page) { }
@@ -54,7 +49,6 @@ export class Mock {
             });
         });
     }
-
 
     // HW-25 Task 1
     async metrics(body: IMetricsFromResponse, statusCode: STATUS_CODES = STATUS_CODES.OK) {

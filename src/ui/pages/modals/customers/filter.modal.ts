@@ -1,9 +1,12 @@
-import { expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { Modal } from "../modal.page";
 
 export class FilterModal extends Modal {
+
+    // Unique element to identify the filter modal
     readonly uniqueElement = this.page.locator(`div[role="dialog"]`);
 
+    // locators for elements in the filter modal
     readonly title = this.uniqueElement.locator(".modal-title");
     readonly applyButton = this.uniqueElement.getByRole("button", { name: "Apply" });
     readonly clearFiltersButton = this.uniqueElement.getByRole("button", { name: "Clear Filters" });
@@ -12,21 +15,29 @@ export class FilterModal extends Modal {
     readonly checkbox = (name: string) => this.uniqueElement.locator(`input[value="${name}"]`);
 
     async checkFilters(...value: string[]) {
-        for (const v of value) {
-            await this.checkbox(v).check();
-        }
+        return test.step("Check Filters in Filter Modal", async () => {
+            for (const v of value) {
+                await this.checkbox(v).check();
+            }
+        });
     }
 
     async clickApply() {
-        await this.applyButton.click();
+        return await test.step("Click Apply Button in Filter Modal", async () => {
+            await this.applyButton.click();
+        });
     }
 
     async clickClearFilters() {
-        await this.clearFiltersButton.click();
+        return await test.step("Click Clear Filters Button in Filter Modal", async () => {
+            await this.clearFiltersButton.click();
+        });
     }
 
     async close() {
-        await this.closeButton.click();
-        await expect(this.uniqueElement).not.toBeVisible();
+        return await test.step("Close Filter Modal", async () => {
+            await this.closeButton.click();
+            await expect(this.uniqueElement).not.toBeVisible();
+        });
     }
 }

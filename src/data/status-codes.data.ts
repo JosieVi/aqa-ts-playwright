@@ -1,3 +1,5 @@
+// Description:
+// This file defines an enumeration for HTTP status codes used in the application.
 
 export enum STATUS_CODES {
     OK = 200,
@@ -9,4 +11,5 @@ export enum STATUS_CODES {
     NOT_FOUND = 404,
     CONFLICT = 409,
     SERVER_ERROR = 500,
+    CUSTOMER_DUPLICATED = 409,
 }

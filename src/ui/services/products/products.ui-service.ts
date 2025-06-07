@@ -1,9 +1,10 @@
-import { Page } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import { AddNewProductPage } from "ui/pages/products/add-new-product.page";
 import { ProductsPage } from "ui/pages/products/products.page";
-import { logStep } from "utils/reporter.utils";
 
 export class ProductsUIService {
+
+    // Initialize the ProductsPage and AddNewProductPage instances
     private productsPage: ProductsPage;
     private addNewProductPage: AddNewProductPage;
 
@@ -12,9 +13,10 @@ export class ProductsUIService {
         this.addNewProductPage = new AddNewProductPage(page);
     }
 
-    @logStep("Open Add New Product Page from Products Page")
     async openAddPage() {
-        await this.productsPage.clickAddNewProduct();
-        await this.addNewProductPage.waitForOpened();
+        return await test.step("Open Add New Product Page from Products Page", async () => {
+            await this.productsPage.clickAddNewProduct();
+            await this.addNewProductPage.waitForOpened();
+        });
     }
 }

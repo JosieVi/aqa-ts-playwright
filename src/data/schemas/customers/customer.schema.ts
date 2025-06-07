@@ -1,3 +1,7 @@
+// Description:
+// This schema defines the structure of a customer object, including required fields and their types.
+// It also includes an enumeration for the country field, ensuring that only valid country values are accepted.
+
 import { COUNTRIES } from "data/customers/countries.data";
 
 export const customerSchema = {

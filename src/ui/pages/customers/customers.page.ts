@@ -1,6 +1,6 @@
-import { expect, Locator } from "@playwright/test";
+import { test, Locator } from "@playwright/test";
 import { SalesPortalPage } from "../sales-portal.page";
-import { ICustomer, ICustomerInTable } from "types/customer.types";
+import { ICustomerInTable } from "types/customer.types";
 import { FilterModal } from "../modals/customers/filter.modal";
 import { DeleteCustomerModal } from "../modals/customers/delete.modal";
 import { COUNTRIES } from "data/customers/countries.data";
@@ -10,7 +10,7 @@ import { logStep } from "utils/reporter.utils";
 export class CustomersPage extends SalesPortalPage {
     //Modals
     readonly filterModal = new FilterModal(this.page);
-    readonly deleteModal = new DeleteCustomerModal(this.page);
+    readonly deleteCustomerModal = new DeleteCustomerModal(this.page);
 
     //Header menu
     readonly addNewCustomerButton = this.page.getByRole("button", { name: "Add Customer" });
@@ -28,7 +28,8 @@ export class CustomersPage extends SalesPortalPage {
     readonly emailHeader = this.tableHeader.filter({ hasText: "Email" });
     readonly nameHeader = this.tableHeader.filter({ hasText: "Name" });
     readonly countryHeader = this.tableHeader.filter({ hasText: "Country" });
-    readonly createdOnHeader = this.tableHeader.filter({ hasText: "Created On" });
+    // readonly createdOnHeader = this.tableHeader.filter({ hasText: "Created On" }).nth(1);
+    readonly createdOnHeader = this.tableHeader.filter({ hasText: 'Created On' }).filter({ has: this.page.locator('[onclick*="sortCustomersInTable"]') });
 
     //Table Body
     readonly tableRow = this.page.locator("#table-customers tbody tr");
@@ -45,56 +46,50 @@ export class CustomersPage extends SalesPortalPage {
     readonly uniqueElement = this.addNewCustomerButton;
 
     async open() {
-        await this.page.evaluate(async () => {
-            await (window as typeof window & { renderCustomersPage: () => Promise<void> }).renderCustomersPage();
+        return await test.step("Open Customers Page by calling a method from the browser", async () => {
+            await this.page.evaluate(async () => {
+                await (window as typeof window & { renderCustomersPage: () => Promise<void> }).renderCustomersPage();
+            });
         });
     }
 
-    @logStep("Click on Add New Customer button")
+    // @logStep("Click on Add New Customer button")
     async clickAddNewCustomer() {
-        await this.addNewCustomerButton.click();
-    }
-
-    async clickDeleteCustomer(customerEmail: string) {
-        await this.deleteButton(customerEmail).click();
+        return await test.step("Click on Add New Customer button", async () => {
+            await this.addNewCustomerButton.click();
+        });
     }
 
     async clickFilter() {
-        await this.filterButton.click();
+        return await test.step("Click on Filter button", async () => {
+            await this.filterButton.click();
+        });
     }
 
     async clickTableAction(customerEmail: string, action: "edit" | "details" | "delete") {
-        const buttons = {
-            edit: this.editButton(customerEmail),
-            details: this.detailsButton(customerEmail),
-            delete: this.deleteButton(customerEmail),
-        };
-
-        await buttons[action].click();
+        return await test.step(`Click on ${action} button for customer with email: ${customerEmail}`, async () => {
+            const buttons = {
+                edit: this.editButton(customerEmail),
+                details: this.detailsButton(customerEmail),
+                delete: this.deleteButton(customerEmail),
+            };
+            await buttons[action].click();
+        });
     }
 
-    // УБРАТЬ
 
-    // async getCustomerDataByEmail(customerEmail: string): Promise<ICustomerInTable> {
-
-    //     const [email, name, country, createdOn] = await this.tableRowByEmail(customerEmail).locator("td").allInnerTexts();
-    //     return {
-    //         email,
-    //         name,
-    //         country: country as COUNTRIES,
-    //     };
-    // }
 
     async getCustomerData(customerEmail: string): Promise<ICustomerInTable> {
-        //variant 1
+        // version 1
         // return {
         //   email: await this.emailCell(email).textContent(),
         //   name: await this.nameCell(email).textContent(),
         //   country: await this.countryCell(email).textContent(),
+        //   createdOn: await this.createdOnCell(email).textCnt(),
         //   createdOn: await this.createdOnCell(email).textContent(),
         // };
 
-        //variant 2
+        // version 2
         // const [email, name, country, createdOn] = await Promise.all([
         //   this.emailCell(customerEmail).textContent(),
         //   this.nameCell(customerEmail).textContent(),
@@ -103,72 +98,88 @@ export class CustomersPage extends SalesPortalPage {
         // ]);
         // return { email, name, country, createdOn };
 
-        //variant 3
-        const [email, name, country, createdOn] = await this.tableRowByEmail(customerEmail).locator("td").allInnerTexts();
-        return {
-            email,
-            name,
-            country: country as COUNTRIES,
-            //createdOn
-        };
-    }
-
-    async getTableData() {
-        const tableData: Array<ICustomerInTable> = [];
-        const rows = await this.tableRow.all();
-        for (const row of rows) {
-            const [email, name, country] = await row.locator("td").allInnerTexts();
-            tableData.push({
+        // version 3
+        return await test.step(`Get customer data for email: ${customerEmail}`, async () => {
+            const [email, name, country, createdOn] = await this.tableRowByEmail(customerEmail).locator("td").allInnerTexts();
+            return {
                 email,
                 name,
                 country: country as COUNTRIES,
-            });
-        }
-        return tableData;
+                //createdOn
+            };
+        });
+    }
+
+    async getTableData() {
+        return await test.step("Get all customers data from the table", async () => {
+            const tableData: Array<ICustomerInTable> = [];
+            const rows = await this.tableRow.all();
+            for (const row of rows) {
+                const [email, name, country] = await row.locator("td").allInnerTexts();
+                tableData.push({
+                    email,
+                    name,
+                    country: country as COUNTRIES,
+                });
+            }
+            return tableData;
+        });
     }
 
     async getCustomerRowByEmail(email: string): Promise<Locator> {
-        return this.page.locator(`//td[contains(text(), "${email}")]`);
+        return await test.step(`Get customer row by email: ${email}`, async () => {
+            return this.page.locator(`//td[contains(text(), "${email}")]`);
+        });
     }
 
     async getFirstCustomerData(): Promise<ICustomerInTable> {
-        const [email, name, country] = await this.page.locator('table tbody tr').first().locator('td').allInnerTexts();
-        return {
-            email,
-            name,
-            country: country as COUNTRIES,
-        };
+        return await test.step("Get first customer data from the table", async () => {
+            const [email, name, country] = await this.page.locator('table tbody tr').first().locator('td').allInnerTexts();
+            return {
+                email,
+                name,
+                country: country as COUNTRIES,
+            };
+        });
     }
 
 
     async fillSearch(value: string | number) {
-        await this.searchInput.fill(String(value));
+        return await test.step(`Fill search input with value: ${value}`, async () => {
+            await this.searchInput.fill(String(value));
+        });
     }
 
     async clickSearch() {
-        await this.searchButton.click();
+        return await test.step("Click on Search button", async () => {
+            await this.searchButton.click();
+        });
     }
 
     async search(value: string | number) {
-        await this.fillSearch(value);
-        await this.clickSearch();
-        await this.waitForOpened();
+        return await test.step(`Search for customer with value: ${value}`, async () => {
+            await this.fillSearch(value);
+            await this.clickSearch();
+            await this.waitForOpened();
+        });
     }
 
     async clickTableHeader(header: customersSortField) {
-        switch (header) {
-            case "email":
-                await this.emailHeader.click();
-                break;
-            case "name":
-                await this.nameHeader.click();
-                break;
-            case "country":
-                await this.countryHeader.click();
-                break;
-            case "createdOn":
-                await this.createdOnHeader.click();
-                break;
-        }
+        return await test.step(`Click on table header: ${header}`, async () => {
+            switch (header) {
+                case "email":
+                    await this.emailHeader.click();
+                    break;
+                case "name":
+                    await this.nameHeader.click();
+                    break;
+                case "country":
+                    await this.countryHeader.click();
+                    break;
+                case "createdOn":
+                    await this.createdOnHeader.click();
+                    break;
+            }
+        });
     }
 }

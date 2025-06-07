@@ -1,5 +1,7 @@
 import { defaultMetricsResponse } from "data/metrics.data";
-import { expect, test } from "fixtures/business-steps.fixture";
+import { TAGS } from "data/test-tags.data";
+import { expect, test } from "fixtures/ui-services.fixture";
+// import { expect, test } from "fixtures/business-steps.fixture";
 
 const metricsForTests = [
     { name: 'Orders This Year', value: defaultMetricsResponse.Metrics.orders.totalOrders },
@@ -9,16 +11,26 @@ const metricsForTests = [
 
 test.describe("[UI] [Home] [Metrics]", async () => {
     metricsForTests.forEach(({ name, value }) => {
-        test(`Check the metric - ${name}`, async ({
-            loginAsLocalUser,
-            homePage,
-            mock,
-        }) => {
+        test(`Check the metric - ${name}`,
+            { tag: [TAGS.CRITICAL_PATH] },
+            async ({
+                homeUIService,
+                homePage,
+                mock, }) => {
 
-            await mock.metrics(defaultMetricsResponse);
-            await loginAsLocalUser();
-            const ordersThisYear = await homePage.getMetrics(name);
-            expect.soft(ordersThisYear).toEqual(value);
-        });
+                // Precondition
+                // Mock the metrics response
+                await mock.metrics(defaultMetricsResponse);
+
+                // Open the home page
+                // await loginAsLocalUser();
+                homeUIService.openAsLoggedInUser();
+
+                // Act
+                // Get the metric value from the home page and check it
+                const ordersThisYear = await homePage.getMetrics(name);
+                console.log(`Orders this year: ${ordersThisYear}`);
+                expect.soft(ordersThisYear).toEqual(value);
+            });
     });
 });

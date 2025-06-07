@@ -1,18 +1,6 @@
-/*
-
-Реализовать E2E тест по созданию продукта (модуль Products) по аналогии c Customers с шагами
-  - залогиниться
-  - Перейти на страницу Products List
-  - Перейти на страницу Add New Product
-  - Заполнить поля валидными данными
-  - Сохранить продукт
-  - Проверить наличие продукта в таблице
-
-Требования найдете в валидационных сообщениях на фронте:) Уникальное поле - Имя
-*/
-
 import { NOTIFICATIONS } from "data/notifications.data";
 import { STATUS_CODES } from "data/status-codes.data";
+import { TAGS } from "data/test-tags.data";
 import { expect, test } from "fixtures/ui-services.fixture";
 
 
@@ -21,24 +9,39 @@ test.describe("[E2E] [UI] [Products] [Create]", async () => {
     let token = "";
     test(
         "Should create product with smoke data",
-        { tag: ["@smoke"] },
-        async ({ homeUIService, productsUIService, addNewProductUIService, productsController, page, productsPage }) => {
+        { tag: [TAGS.SMOKE] },
+        async ({
+            homeUIService,
+            productsUIService,
+            addNewProductUIService,
+            productsController,
+            page,
+            productsPage }) => {
+
+            // Precondition
+            // Open the home page
             await homeUIService.openAsLoggedInUser();
 
             token = (await page.context().cookies()).find((c) => c.name === "Authorization")!.value;
+
+            // Open the Products module and open the Add Product page
             await homeUIService.openModule("Products");
             await productsUIService.openAddPage();
 
+            // Action
+            // Create a new product with valid data
             const createdProduct = await addNewProductUIService.create();
             const response = await productsController.getById(createdProduct._id, token);
             id = createdProduct._id;
-            test.step("Check that product is created via API", async () => {
-                expect(response.status).toBe(STATUS_CODES.OK);
-                productsPage.waitForNotification(NOTIFICATIONS.PRODUCT_CREATED);
-            });
+
+            // Check that the product is created successfully via API
+            expect(response.status).toBe(STATUS_CODES.OK);
+            productsPage.waitForNotification(NOTIFICATIONS.PRODUCT_CREATED);
         }
     );
 
+    // Postcondition
+    // Delete the created product
     test.afterEach(async ({ productsController }) => {
         await productsController.delete(id, token);
     });

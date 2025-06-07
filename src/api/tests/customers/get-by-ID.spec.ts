@@ -7,10 +7,13 @@ import { STATUS_CODES } from "data/status-codes.data";
 import { validateSchema } from "utils/validations/schema-validation";
 import { TAGS } from "data/test-tags.data";
 
-test.describe("[API] [Customers] [Update]", () => {
-    test("Update customer with smoke data",
-        { tag: [TAGS.SMOKE, TAGS.REGRESSION] },
-        async ({ request, signInController }) => {
+test.describe("[API] [Customers] [Get_By_Id]", () => {
+    test("Should get created customer by id",
+        { tag: [TAGS.REGRESSION] },
+        async ({
+            request,
+            signInController
+        }) => {
             const credentials = { username: USER_LOGIN, password: USER_PASSWORD };
             const loginResponse = await signInController.signIn(credentials);
             const headers = loginResponse.headers;
@@ -29,21 +32,20 @@ test.describe("[API] [Customers] [Update]", () => {
             const customerBody = await customerResponse.json();
             expect.soft(customerResponse.status()).toBe(STATUS_CODES.CREATED);
 
-            const updateCustomerData = generateCustomerData();
-            const updateCustomerResponse = await request.put(
+            const getResponse = await request.get(
                 apiConfig.BASE_URL + apiConfig.ENDPOINTS.CUSTOMER_BY_ID(customerBody.Customer._id),
                 {
-                    data: updateCustomerData,
                     headers: {
-                        "content-type": "application/json",
                         Authorization: `Bearer ${token}`,
+                        "content-type": "application/json",
                     },
                 }
             );
-            const body = await updateCustomerResponse.json();
+
+            const body = await getResponse.json();
             validateSchema(customerSchema, body);
-            expect.soft(updateCustomerResponse.status()).toBe(STATUS_CODES.OK);
-            expect.soft(body.Customer).toMatchObject({ ...updateCustomerData });
+            expect.soft(getResponse.status()).toBe(STATUS_CODES.OK);
+            expect.soft(body.Customer).toMatchObject({ ...customerBody.Customer });
             expect.soft(body.ErrorMessage).toBe(null);
             expect.soft(body.IsSuccess).toBe(true);
 

@@ -1,3 +1,6 @@
+// Description:
+// This file contains a list of manufacturers used in the application.
+
 export enum MANUFACTURERS {
     APPLE = "Apple",
     SAMSUNG = "Samsung",

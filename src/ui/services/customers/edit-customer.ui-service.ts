@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { generateCustomerData } from "data/customers/generate-customer.data";
 import { STATUS_CODES } from "data/status-codes.data";
@@ -8,6 +8,8 @@ import _ from "lodash";
 import { EditCustomerPage } from "ui/pages/customers/edit-customer.page";
 
 export class EditCustomerUiService {
+
+    // Initialize the EditCustomerPage and CustomersPage instances
     private editCustomerPage: EditCustomerPage;
     private customersPage: CustomersPage;
     constructor(private page: Page) {
@@ -16,15 +18,17 @@ export class EditCustomerUiService {
     }
 
     async edit(customData?: ICustomer) {
-        const data = generateCustomerData(customData);
-        await this.editCustomerPage.fillInputs(data);
-        const response = await this.editCustomerPage.interceptResponse<ICustomerResponse, any>(
-            apiConfig.ENDPOINTS.CUSTOMERS,
-            this.editCustomerPage.clickSaveChanges.bind(this.editCustomerPage)
-        );
-        expect(response.status).toBe(STATUS_CODES.OK);
-        expect(_.omit(response.body.Customer, "_id", "createdOn")).toEqual({ ...data });
-        await this.customersPage.waitForOpened();
-        return response.body.Customer;
+        return await test.step("Edit a customer with smoke data on Edit Customer page", async () => {
+            const data = generateCustomerData(customData);
+            await this.editCustomerPage.fillInputs(data);
+            const response = await this.editCustomerPage.interceptResponse<ICustomerResponse, any>(
+                apiConfig.ENDPOINTS.CUSTOMERS,
+                this.editCustomerPage.clickSaveChanges.bind(this.editCustomerPage)
+            );
+            expect(response.status).toBe(STATUS_CODES.OK);
+            expect(_.omit(response.body.Customer, "_id", "createdOn")).toEqual({ ...data });
+            await this.customersPage.waitForOpened();
+            return response.body.Customer;
+        });
     }
 }

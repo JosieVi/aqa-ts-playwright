@@ -1,12 +1,14 @@
-import { test, expect } from "fixtures/controllers.fixture";
+import { test, expect } from "fixtures/ui-services.fixture";
 import { apiConfig } from "config/api-config";
 import { USER_LOGIN, USER_PASSWORD } from "config/enviroment";
 import { generateCustomerData } from "data/customers/generate-customer.data";
 import { STATUS_CODES } from "data/status-codes.data";
 import _ from "lodash";
+// import { test, expect } from "fixtures/controllers.fixture";
 
 test.describe("[API] [Customers] [Delete]", () => {
     test("Should delete customer", async ({ request, signInController }) => {
+
         const credentials = { username: USER_LOGIN, password: USER_PASSWORD };
         const loginResponse = await signInController.signIn(credentials);
         const headers = loginResponse.headers;

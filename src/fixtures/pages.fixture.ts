@@ -1,3 +1,6 @@
+// Description:
+// This file extends the base test fixture to include UI page objects for the Sales Portal.
+
 import { test as base } from "fixtures/mock.fixture";
 import { AddNewCustomerPage } from "ui/pages/customers/add-new-customer.page";
 import { CustomerDetailsPage } from "ui/pages/customers/customer-details.page";
@@ -51,15 +54,5 @@ export const test = base.extend<ISalesPortalPages>({
         await use(new AddNewProductPage(page));
     },
 });
-
-// interface ISalesPortalPages {
-//   pages: Pages;
-// }
-
-// export const test = base.extend<ISalesPortalPages>({
-//   pages: async ({ page }, use) => {
-//     await use(new Pages(page));
-//   },
-// });
 
 export { expect } from "@playwright/test";
