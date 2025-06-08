@@ -3,8 +3,8 @@ import { RequestApi } from "api/apiClients/request";
 import { apiConfig } from "config/api-config";
 import { IRequestOptions } from "types/api.types";
 import { ICustomer, ICustomerResponse, ICustomersResponse } from "types/customer.types";
+import { logStep } from "utils/reporter.utils";
 import { convertRequestParams } from "utils/request-params.utils";
-// import { logStep } from "utils/reporter.utils";
 
 export class CustomersController {
 
@@ -17,20 +17,19 @@ export class CustomersController {
         this.request = new RequestApi(context);
     }
 
+    @logStep("Create a new customer via API")
     async create(body: ICustomer, token: string) {
-        return await test.step("Create a new customer via API", async () => {
-            const options: IRequestOptions = {
-                baseURL: apiConfig.BASE_URL,
-                url: apiConfig.ENDPOINTS.CUSTOMERS,
-                method: "post",
-                data: body,
-                headers: {
-                    "content-type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            return await this.request.send<ICustomerResponse>(options);
-        });
+        const options: IRequestOptions = {
+            baseURL: apiConfig.BASE_URL,
+            url: apiConfig.ENDPOINTS.CUSTOMERS,
+            method: "post",
+            data: body,
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        return await this.request.send<ICustomerResponse>(options);
     }
 
     async getById(id: string, token: string) {
@@ -48,19 +47,18 @@ export class CustomersController {
         });
     }
 
+    @logStep("Get all customers")
     async getAll(token: string, params?: Record<string, string>) {
-        return await test.step("Get all customers", async () => {
-            const options: IRequestOptions = {
-                baseURL: apiConfig.BASE_URL,
-                url: apiConfig.ENDPOINTS.CUSTOMERS + (params ? convertRequestParams(params) : ""),
-                method: "get",
-                headers: {
-                    "content-type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            return await this.request.send<ICustomersResponse>(options);
-        });
+        const options: IRequestOptions = {
+            baseURL: apiConfig.BASE_URL,
+            url: apiConfig.ENDPOINTS.CUSTOMERS + (params ? convertRequestParams(params) : ""),
+            method: "get",
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        return await this.request.send<ICustomersResponse>(options);
     }
 
     async update(id: string, body: ICustomer, token: string) {
@@ -79,7 +77,6 @@ export class CustomersController {
         });
     }
 
-    // @logStep("Delete customer with ID")
     async delete(id: string, token: string) {
         return await test.step(`Delete customer with ID: ${id}`, async () => {
             const options: IRequestOptions = {

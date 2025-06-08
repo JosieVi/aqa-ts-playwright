@@ -2,6 +2,7 @@ import { SalesPortalPage } from "../sales-portal.page";
 import { ICustomer } from "types/customer.types";
 import { COUNTRIES } from "data/customers/countries.data";
 import { test } from "@playwright/test";
+import { logStep } from "utils/reporter.utils";
 
 export class CustomerDetailsPage extends SalesPortalPage {
 
@@ -22,7 +23,7 @@ export class CustomerDetailsPage extends SalesPortalPage {
 
     // Call a method from the browser to open a page from anywhere in the project (specifically for this project)
     async open(id: string) {
-        return await test.step("Open Customer Details Page", async () => {
+        return await test.step(`Open Customer Details Page with ID: ${id}`, async () => {
             await this.page.evaluate(async (id: string) => {
                 await (
                     window as typeof window & { renderCustomerDetailsPage: (id: string) => Promise<void> }
@@ -31,32 +32,31 @@ export class CustomerDetailsPage extends SalesPortalPage {
         });
     }
 
+    @logStep("Get Customer Details")
     async getDetails(): Promise<ICustomer & { createdOn: string }> {
-        return await test.step("Get Customer Details", async () => {
-            const [email, name, phone, country, city, street, house, flat, notes, registrationDate] = await Promise.all([
-                this.email.innerText(),
-                this.name.innerText(),
-                this.phone.innerText(),
-                this.country.innerText(),
-                this.city.innerText(),
-                this.street.innerText(),
-                this.house.innerText(),
-                this.flat.innerText(),
-                this.notes.innerText(),
-                this.registrationDate.innerText(),
-            ]);
-            return {
-                email,
-                name,
-                phone,
-                country: country as COUNTRIES,
-                city,
-                street,
-                house: +house,
-                flat: +flat,
-                notes,
-                createdOn: registrationDate,
-            };
-        });
+        const [email, name, phone, country, city, street, house, flat, notes, registrationDate] = await Promise.all([
+            this.email.innerText(),
+            this.name.innerText(),
+            this.phone.innerText(),
+            this.country.innerText(),
+            this.city.innerText(),
+            this.street.innerText(),
+            this.house.innerText(),
+            this.flat.innerText(),
+            this.notes.innerText(),
+            this.registrationDate.innerText(),
+        ]);
+        return {
+            email,
+            name,
+            phone,
+            country: country as COUNTRIES,
+            city,
+            street,
+            house: +house,
+            flat: +flat,
+            notes,
+            createdOn: registrationDate,
+        };
     }
 }

@@ -3,6 +3,7 @@ import { AddNewCustomerPage } from "ui/pages/customers/add-new-customer.page";
 import { CustomerDetailsPage } from "ui/pages/customers/customer-details.page";
 import { CustomersPage } from "ui/pages/customers/customers.page";
 import { EditCustomerPage } from "ui/pages/customers/edit-customer.page";
+import { logStep } from "utils/reporter.utils";
 
 export class CustomersUIService {
 
@@ -18,25 +19,21 @@ export class CustomersUIService {
         this.customerDetailsPage = new CustomerDetailsPage(page);
     }
 
-    // @logStep("Open Add New Customer Page from Customers Page")
+    @logStep("Open Add New Customer Page from Customers Page")
     async openAddPage() {
-        return await test.step("Open Add New Customer Page from Customers Page", async () => {
-            await this.customersPage.clickAddNewCustomer();
-            await this.addNewCustomerPage.waitForOpened();
-        });
+        await this.customersPage.clickAddNewCustomer();
+        await this.addNewCustomerPage.waitForOpened();
     }
 
+    @logStep("Open Edit Customer Page from Customers Page")
     async openEditPage(email: string) {
-        return await test.step("Open Edit Customer Page from Customers Page", async () => {
-            await this.customersPage.clickTableAction(email, "edit");
-            await this.editCustomerPage.waitForOpened();
-        });
+        await this.customersPage.clickTableAction(email, "edit");
+        await this.editCustomerPage.waitForOpened();
     }
 
+    @logStep("Open Customer Details Page from Customers Page")
     async openDetailsPage(email: string) {
-        return await test.step("Open Customer Details Page from Customers Page", async () => {
-            await this.customersPage.clickTableAction(email, "details");
-            await this.customerDetailsPage.waitForOpened();
-        });
+        await this.customersPage.clickTableAction(email, "details");
+        await this.customerDetailsPage.waitForOpened();
     }
 }

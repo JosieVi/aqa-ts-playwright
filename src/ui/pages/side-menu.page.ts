@@ -2,6 +2,7 @@ import { Locator, Page, test } from "@playwright/test";
 
 import { SideMenuItem } from "types/side-menu.types";
 import { PageHolder } from "./page-holder.page";
+import { logStep } from "utils/reporter.utils";
 
 export class SideMenuComponent extends PageHolder {
 
@@ -31,16 +32,13 @@ export class SideMenuComponent extends PageHolder {
             await this.menuItem(itemName).click();
         });
     }
-
+    @logStep("Open User Dropdown")
     async openUserDropdown() {
-        return await test.step("Open User Dropdown", async () => {
-            await this.userDropdown.click();
-        });
+        await this.userDropdown.click();
     }
 
+    @logStep("Click Sign Out Button")
     async clickSignOut() {
-        return await test.step("Click Sign Out Button", async () => {
-            await this.signOutButton.click();
-        });
+        await this.signOutButton.click();
     }
 }

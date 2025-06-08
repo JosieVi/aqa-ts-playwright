@@ -1,6 +1,7 @@
 import { expect, Locator, test } from "@playwright/test";
 import { SALES_PORTAL_URL } from "config/enviroment";
 import { BasePage } from "./base.page";
+import { logStep } from "utils/reporter.utils";
 
 export abstract class SalesPortalPage extends BasePage {
 
@@ -11,28 +12,24 @@ export abstract class SalesPortalPage extends BasePage {
   // Unique element to identify the abstract sales portal page
   abstract uniqueElement: Locator;
 
+  @logStep("Wait for Page to be opened")
   async waitForOpened() {
-    return await test.step("Wait for Page to be opened", async () => {
-      await expect(this.uniqueElement).toBeVisible();
-      await this.waitForSpinner();
-    });
+    await expect(this.uniqueElement).toBeVisible();
+    await this.waitForSpinner();
   }
 
+  @logStep("Wait for Spinner to be hidden")
   async waitForSpinner() {
-    return await test.step("Wait for Spinner to be hidden", async () => {
-      await expect(this.spinner).toHaveCount(0);
-    });
+    await expect(this.spinner).toHaveCount(0);
   }
 
+  @logStep("Wait for Notification to appear")
   async waitForNotification(text: string) {
-    return await test.step("Wait for Notification to appear", async () => {
-      await expect(this.notification.last()).toHaveText(text);
-    });
+    await expect(this.notification.last()).toHaveText(text);
   }
 
+  @logStep("Open Sales Portal")
   async openPortal() {
-    return await test.step("Open Sales Portal", async () => {
-      this.page.goto(SALES_PORTAL_URL);
-    });
+    this.page.goto(SALES_PORTAL_URL);
   }
 }

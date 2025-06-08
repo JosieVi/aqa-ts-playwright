@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { Modal } from "../modal.page";
+import { logStep } from "utils/reporter.utils";
 
 export class FilterModal extends Modal {
 
@@ -14,30 +15,26 @@ export class FilterModal extends Modal {
 
     readonly checkbox = (name: string) => this.uniqueElement.locator(`input[value="${name}"]`);
 
+    @logStep("Check Filters in Filter Modal")
     async checkFilters(...value: string[]) {
-        return test.step("Check Filters in Filter Modal", async () => {
-            for (const v of value) {
-                await this.checkbox(v).check();
-            }
-        });
+        for (const v of value) {
+            await this.checkbox(v).check();
+        }
     }
 
+    @logStep("Click Apply Button in Filter Modal")
     async clickApply() {
-        return await test.step("Click Apply Button in Filter Modal", async () => {
-            await this.applyButton.click();
-        });
+        await this.applyButton.click();
     }
 
+    @logStep("Click Clear Filters Button in Filter Modal")
     async clickClearFilters() {
-        return await test.step("Click Clear Filters Button in Filter Modal", async () => {
-            await this.clearFiltersButton.click();
-        });
+        await this.clearFiltersButton.click();
     }
 
+    @logStep("Close Filter Modal")
     async close() {
-        return await test.step("Close Filter Modal", async () => {
-            await this.closeButton.click();
-            await expect(this.uniqueElement).not.toBeVisible();
-        });
+        await this.closeButton.click();
+        await expect(this.uniqueElement).not.toBeVisible();
     }
 }

@@ -1,6 +1,7 @@
 import test, { APIRequestContext, APIResponse, request } from "@playwright/test";
 import _ from "lodash";
 import { IRequestOptions, IResponse } from "types/api.types";
+import { logStep } from "utils/reporter.utils";
 
 //
 export class RequestApi {
@@ -30,22 +31,21 @@ export class RequestApi {
         });
     }
 
+    @logStep("Transform response")
     async transformResponse() {
-        return await test.step("Transform response", async () => {
-            let body;
-            const contentType = this.response!.headers()["content-type"] || "";
-            if (contentType.includes("application/json")) {
-                body = await this.response!.json();
-            } else {
-                body = await this.response!.text();
-            }
+        let body;
+        const contentType = this.response!.headers()["content-type"] || "";
+        if (contentType.includes("application/json")) {
+            body = await this.response!.json();
+        } else {
+            body = await this.response!.text();
+        }
 
-            return {
-                status: this.response!.status(),
-                body,
-                headers: this.response!.headers(),
-            };
-        });
+        return {
+            status: this.response!.status(),
+            body,
+            headers: this.response!.headers(),
+        };
     }
 
     private attachRequest(options: IRequestOptions): void {

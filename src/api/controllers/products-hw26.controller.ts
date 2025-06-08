@@ -2,7 +2,8 @@ import { APIRequestContext, test } from "@playwright/test";
 import { RequestApi } from "api/apiClients/request";
 import { apiConfig } from "config/api-config";
 import { IRequestOptions } from "types/api.types";
-import { IProduct, IProductResponse, IProductsResponse } from "types/products.types";
+import { IProduct, IProductResponse } from "types/products.types";
+import { logStep } from "utils/reporter.utils";
 
 export class ProductsController {
 
@@ -13,20 +14,19 @@ export class ProductsController {
         this.request = new RequestApi(context);
     }
 
+    @logStep("Create a new product via API")
     async create(body: IProduct, token: string) {
-        return await test.step("Create a new product via API", async () => {
-            const options: IRequestOptions = {
-                baseURL: apiConfig.BASE_URL,
-                url: apiConfig.ENDPOINTS.PRODUCTS,
-                method: "post",
-                data: body,
-                headers: {
-                    "content-type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            return await this.request.send<IProductResponse>(options);
-        });
+        const options: IRequestOptions = {
+            baseURL: apiConfig.BASE_URL,
+            url: apiConfig.ENDPOINTS.PRODUCTS,
+            method: "post",
+            data: body,
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        return await this.request.send<IProductResponse>(options);
     }
 
     async getById(id: string, token: string) {

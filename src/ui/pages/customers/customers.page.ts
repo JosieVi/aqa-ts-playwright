@@ -6,6 +6,7 @@ import { DeleteCustomerModal } from "../modals/customers/delete.modal";
 import { COUNTRIES } from "data/customers/countries.data";
 import { customersSortField } from "types/api.types";
 import { logStep } from "utils/reporter.utils";
+import { log } from "console";
 
 export class CustomersPage extends SalesPortalPage {
     //Modals
@@ -45,25 +46,21 @@ export class CustomersPage extends SalesPortalPage {
 
     readonly uniqueElement = this.addNewCustomerButton;
 
+    @logStep("Open Customers Page by calling a method from the browser")
     async open() {
-        return await test.step("Open Customers Page by calling a method from the browser", async () => {
-            await this.page.evaluate(async () => {
-                await (window as typeof window & { renderCustomersPage: () => Promise<void> }).renderCustomersPage();
-            });
+        await this.page.evaluate(async () => {
+            await (window as typeof window & { renderCustomersPage: () => Promise<void> }).renderCustomersPage();
         });
     }
 
-    // @logStep("Click on Add New Customer button")
+    @logStep("Click on Add New Customer button")
     async clickAddNewCustomer() {
-        return await test.step("Click on Add New Customer button", async () => {
-            await this.addNewCustomerButton.click();
-        });
+        await this.addNewCustomerButton.click();
     }
 
+    @logStep("Click on Filter button")
     async clickFilter() {
-        return await test.step("Click on Filter button", async () => {
-            await this.filterButton.click();
-        });
+        await this.filterButton.click();
     }
 
     async clickTableAction(customerEmail: string, action: "edit" | "details" | "delete") {
@@ -110,20 +107,19 @@ export class CustomersPage extends SalesPortalPage {
         });
     }
 
+    @logStep("Get all customers data from the table")
     async getTableData() {
-        return await test.step("Get all customers data from the table", async () => {
-            const tableData: Array<ICustomerInTable> = [];
-            const rows = await this.tableRow.all();
-            for (const row of rows) {
-                const [email, name, country] = await row.locator("td").allInnerTexts();
-                tableData.push({
-                    email,
-                    name,
-                    country: country as COUNTRIES,
-                });
-            }
-            return tableData;
-        });
+        const tableData: Array<ICustomerInTable> = [];
+        const rows = await this.tableRow.all();
+        for (const row of rows) {
+            const [email, name, country] = await row.locator("td").allInnerTexts();
+            tableData.push({
+                email,
+                name,
+                country: country as COUNTRIES,
+            });
+        }
+        return tableData;
     }
 
     async getCustomerRowByEmail(email: string): Promise<Locator> {
@@ -132,17 +128,15 @@ export class CustomersPage extends SalesPortalPage {
         });
     }
 
+    @logStep("Get first customer data from the table")
     async getFirstCustomerData(): Promise<ICustomerInTable> {
-        return await test.step("Get first customer data from the table", async () => {
-            const [email, name, country] = await this.page.locator('table tbody tr').first().locator('td').allInnerTexts();
-            return {
-                email,
-                name,
-                country: country as COUNTRIES,
-            };
-        });
+        const [email, name, country] = await this.page.locator('table tbody tr').first().locator('td').allInnerTexts();
+        return {
+            email,
+            name,
+            country: country as COUNTRIES,
+        };
     }
-
 
     async fillSearch(value: string | number) {
         return await test.step(`Fill search input with value: ${value}`, async () => {
@@ -150,10 +144,9 @@ export class CustomersPage extends SalesPortalPage {
         });
     }
 
+    @logStep("Click on Search button")
     async clickSearch() {
-        return await test.step("Click on Search button", async () => {
-            await this.searchButton.click();
-        });
+        await this.searchButton.click();
     }
 
     async search(value: string | number) {

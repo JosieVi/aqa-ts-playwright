@@ -6,6 +6,7 @@ import { ICustomer, ICustomerResponse } from "types/customer.types";
 import { CustomersPage } from "ui/pages/customers/customers.page";
 import _ from "lodash";
 import { EditCustomerPage } from "ui/pages/customers/edit-customer.page";
+import { logStep } from "utils/reporter.utils";
 
 export class EditCustomerUiService {
 
@@ -17,18 +18,17 @@ export class EditCustomerUiService {
         this.customersPage = new CustomersPage(page);
     }
 
+    @logStep("Edit a customer with smoke data on Edit Customer page")
     async edit(customData?: ICustomer) {
-        return await test.step("Edit a customer with smoke data on Edit Customer page", async () => {
-            const data = generateCustomerData(customData);
-            await this.editCustomerPage.fillInputs(data);
-            const response = await this.editCustomerPage.interceptResponse<ICustomerResponse, any>(
-                apiConfig.ENDPOINTS.CUSTOMERS,
-                this.editCustomerPage.clickSaveChanges.bind(this.editCustomerPage)
-            );
-            expect(response.status).toBe(STATUS_CODES.OK);
-            expect(_.omit(response.body.Customer, "_id", "createdOn")).toEqual({ ...data });
-            await this.customersPage.waitForOpened();
-            return response.body.Customer;
-        });
+        const data = generateCustomerData(customData);
+        await this.editCustomerPage.fillInputs(data);
+        const response = await this.editCustomerPage.interceptResponse<ICustomerResponse, any>(
+            apiConfig.ENDPOINTS.CUSTOMERS,
+            this.editCustomerPage.clickSaveChanges.bind(this.editCustomerPage)
+        );
+        expect(response.status).toBe(STATUS_CODES.OK);
+        expect(_.omit(response.body.Customer, "_id", "createdOn")).toEqual({ ...data });
+        await this.customersPage.waitForOpened();
+        return response.body.Customer;
     }
 }

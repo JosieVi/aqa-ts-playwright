@@ -1,6 +1,7 @@
 import test from "@playwright/test";
 import { ProductDetailsModal } from "../modals/products/product-details.modal";
 import { SalesPortalPage } from "../sales-portal.page";
+import { logStep } from "utils/reporter.utils";
 
 export class ProductsPage extends SalesPortalPage {
 
@@ -23,9 +24,8 @@ export class ProductsPage extends SalesPortalPage {
         });
     }
 
+    @logStep("Click Add New Product Button")
     async clickAddNewProduct() {
-        return await test.step("Click Add New Product Button", async () => {
-            await this.addNewProductButton.click();
-        });
+        await this.addNewProductButton.click();
     }
 }

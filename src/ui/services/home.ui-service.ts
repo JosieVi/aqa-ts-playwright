@@ -3,6 +3,7 @@ import { ModuleName } from "types/home.types";
 import { CustomersPage } from "ui/pages/customers/customers.page";
 import { HomePage } from "ui/pages/home.page";
 import { ProductsPage } from "ui/pages/products/products.page";
+import { logStep } from "utils/reporter.utils";
 
 export class HomeUIService {
 
@@ -36,10 +37,9 @@ export class HomeUIService {
         });
     }
 
+    @logStep("Open Sales Portal on Home Page as logged in user")
     async openAsLoggedInUser() {
-        return await test.step("Open Sales Portal on Home Page as logged in user", async () => {
-            await this.homePage.openPortal();
-            await this.homePage.waitForOpened();
-        });
+        await this.homePage.openPortal();
+        await this.homePage.waitForOpened();
     }
 }
