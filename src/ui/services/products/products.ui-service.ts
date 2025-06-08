@@ -1,9 +1,11 @@
-import { Page } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import { AddNewProductPage } from "ui/pages/products/add-new-product.page";
 import { ProductsPage } from "ui/pages/products/products.page";
 import { logStep } from "utils/reporter.utils";
 
 export class ProductsUIService {
+
+    // Initialize the ProductsPage and AddNewProductPage instances
     private productsPage: ProductsPage;
     private addNewProductPage: AddNewProductPage;
 

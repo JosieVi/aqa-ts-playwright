@@ -1,7 +1,8 @@
+// This test is used to log in to the Sales Portal and save the authentication state to a file.
+
 import { test } from "fixtures/ui-services.fixture";
 
 const authFile = "src/.auth/user.json";
-
 test("Login to Sales Portal", async ({ page, signInApiService }) => {
     const token = await signInApiService.loginAsLocalUser();
     await page.context().addCookies([

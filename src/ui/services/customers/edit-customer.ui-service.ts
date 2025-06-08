@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { generateCustomerData } from "data/customers/generate-customer.data";
 import { STATUS_CODES } from "data/status-codes.data";
@@ -6,8 +6,11 @@ import { ICustomer, ICustomerResponse } from "types/customer.types";
 import { CustomersPage } from "ui/pages/customers/customers.page";
 import _ from "lodash";
 import { EditCustomerPage } from "ui/pages/customers/edit-customer.page";
+import { logStep } from "utils/reporter.utils";
 
 export class EditCustomerUiService {
+
+    // Initialize the EditCustomerPage and CustomersPage instances
     private editCustomerPage: EditCustomerPage;
     private customersPage: CustomersPage;
     constructor(private page: Page) {
@@ -15,6 +18,7 @@ export class EditCustomerUiService {
         this.customersPage = new CustomersPage(page);
     }
 
+    @logStep("Edit a customer with smoke data on Edit Customer page")
     async edit(customData?: ICustomer) {
         const data = generateCustomerData(customData);
         await this.editCustomerPage.fillInputs(data);

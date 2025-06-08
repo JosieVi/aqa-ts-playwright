@@ -1,6 +1,5 @@
 import { test } from "@playwright/test";
 
-
 export function logStep<This, Args extends any[], Return>(message?: string) {
     return function actualDecorator(
         target: (this: This, ...args: Args) => Promise<Return>,

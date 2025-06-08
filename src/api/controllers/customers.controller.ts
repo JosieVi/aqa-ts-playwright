@@ -1,20 +1,23 @@
-import { APIRequestContext } from "@playwright/test";
+import { APIRequestContext, test } from "@playwright/test";
 import { RequestApi } from "api/apiClients/request";
 import { apiConfig } from "config/api-config";
 import { IRequestOptions } from "types/api.types";
 import { ICustomer, ICustomerResponse, ICustomersResponse } from "types/customer.types";
-import { convertRequestParams } from "utils/request-params.utils";
 import { logStep } from "utils/reporter.utils";
+import { convertRequestParams } from "utils/request-params.utils";
 
 export class CustomersController {
+
     // constructor(private request = new RequestApi()) { }
+
+    // Create a new instance of RequestApi with the provided APIRequestContext
     private request: RequestApi;
 
     constructor(context: APIRequestContext) {
         this.request = new RequestApi(context);
     }
 
-    @logStep()
+    @logStep("Create a new customer via API")
     async create(body: ICustomer, token: string) {
         const options: IRequestOptions = {
             baseURL: apiConfig.BASE_URL,
@@ -29,21 +32,22 @@ export class CustomersController {
         return await this.request.send<ICustomerResponse>(options);
     }
 
-    @logStep()
     async getById(id: string, token: string) {
-        const options: IRequestOptions = {
-            baseURL: apiConfig.BASE_URL,
-            url: apiConfig.ENDPOINTS.CUSTOMER_BY_ID(id),
-            method: "get",
-            headers: {
-                "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        return await this.request.send<ICustomerResponse>(options);
+        return await test.step(`Get customer by ID: ${id}`, async () => {
+            const options: IRequestOptions = {
+                baseURL: apiConfig.BASE_URL,
+                url: apiConfig.ENDPOINTS.CUSTOMER_BY_ID(id),
+                method: "get",
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            return await this.request.send<ICustomerResponse>(options);
+        });
     }
 
-    @logStep()
+    @logStep("Get all customers")
     async getAll(token: string, params?: Record<string, string>) {
         const options: IRequestOptions = {
             baseURL: apiConfig.BASE_URL,
@@ -57,31 +61,33 @@ export class CustomersController {
         return await this.request.send<ICustomersResponse>(options);
     }
 
-    @logStep()
     async update(id: string, body: ICustomer, token: string) {
-        const options: IRequestOptions = {
-            baseURL: apiConfig.BASE_URL,
-            url: apiConfig.ENDPOINTS.CUSTOMER_BY_ID(id),
-            method: "put",
-            data: body,
-            headers: {
-                "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        return await this.request.send<ICustomerResponse>(options);
+        return await test.step(`Update customer with ID: ${id}`, async () => {
+            const options: IRequestOptions = {
+                baseURL: apiConfig.BASE_URL,
+                url: apiConfig.ENDPOINTS.CUSTOMER_BY_ID(id),
+                method: "put",
+                data: body,
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            return await this.request.send<ICustomerResponse>(options);
+        });
     }
 
-    @logStep()
     async delete(id: string, token: string) {
-        const options: IRequestOptions = {
-            baseURL: apiConfig.BASE_URL,
-            url: apiConfig.ENDPOINTS.CUSTOMER_BY_ID(id),
-            method: "delete",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        return await this.request.send<null>(options);
+        return await test.step(`Delete customer with ID: ${id}`, async () => {
+            const options: IRequestOptions = {
+                baseURL: apiConfig.BASE_URL,
+                url: apiConfig.ENDPOINTS.CUSTOMER_BY_ID(id),
+                method: "delete",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            return await this.request.send<null>(options);
+        });
     }
 }

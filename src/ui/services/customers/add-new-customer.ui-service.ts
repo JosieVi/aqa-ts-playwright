@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { generateCustomerData } from "data/customers/generate-customer.data";
 import { STATUS_CODES } from "data/status-codes.data";
@@ -16,8 +16,8 @@ export class AddNewCustomerUiService {
         this.customersPage = new CustomersPage(page);
     }
 
-    @logStep("Create new Customer on Add New Customer Page")
-    async create(customData?: ICustomer) {
+    @logStep("Create a new customer with smoke data on Add New Customer page")
+    async createNewCustomer(customData?: Partial<ICustomer>) {
         const data = generateCustomerData(customData);
         await this.addNewCustomerPage.fillInputs(data);
         const response = await this.addNewCustomerPage.interceptResponse<ICustomerResponse, any>(
@@ -28,5 +28,16 @@ export class AddNewCustomerUiService {
         expect(_.omit(response.body.Customer, "_id", "createdOn")).toEqual({ ...data });
         await this.customersPage.waitForOpened();
         return response.body.Customer;
+    }
+
+    @logStep("Create a duplicated customer with smoke data on Add New Customer page")
+    async createDuplicatedCustomer(customData?: Partial<ICustomer>) {
+        const data = generateCustomerData(customData);
+        await this.addNewCustomerPage.fillInputs(data);
+        const response = await this.addNewCustomerPage.interceptResponse<ICustomerResponse, any>(
+            apiConfig.ENDPOINTS.CUSTOMERS,
+            this.addNewCustomerPage.clickSaveNewCustomer.bind(this.addNewCustomerPage)
+        );
+        expect(response.status).toBe(STATUS_CODES.CUSTOMER_DUPLICATED);
     }
 }

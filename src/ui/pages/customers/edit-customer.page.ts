@@ -1,12 +1,16 @@
 import { ICustomer } from "types/customer.types";
 import { SalesPortalPage } from "../sales-portal.page";
 import { DeleteCustomerModal } from "../modals/customers/delete.modal";
+import test from "@playwright/test";
+import { logStep } from "utils/reporter.utils";
 
 export class EditCustomerPage extends SalesPortalPage {
-    //Modals
+
+    // Locators
+    // Modals
     deleteCustomerModal = new DeleteCustomerModal(this.page);
 
-    //inputs
+    // inputs
     emailInput = this.page.locator("#inputEmail");
     nameInput = this.page.locator("#inputName");
     countryInput = this.page.locator("#inputCountry");
@@ -17,7 +21,7 @@ export class EditCustomerPage extends SalesPortalPage {
     phoneInput = this.page.locator("#inputPhone");
     notesInput = this.page.locator("#textareaNotes");
 
-    //errors
+    // errors
     emailError = this.page.locator("#error-inputEmail");
     nameError = this.page.locator("#error-inputName");
     cityError = this.page.locator("#error-inputCity");
@@ -30,8 +34,10 @@ export class EditCustomerPage extends SalesPortalPage {
     saveChangesButton = this.page.getByRole("button", { name: "Save Changes" });
     deleteCustomerButton = this.page.getByRole("button", { name: "Delete Customer" });
 
+    // Unique element for the page
     uniqueElement = this.saveChangesButton;
 
+    @logStep("Fill in Edit Customer form")
     async fillInputs(customer: Partial<ICustomer>) {
         customer.email && (await this.emailInput.fill(customer.email));
         customer.name && (await this.nameInput.fill(customer.name));
@@ -43,7 +49,7 @@ export class EditCustomerPage extends SalesPortalPage {
         customer.phone && (await this.phoneInput.fill(customer.phone));
         customer.notes && (await this.notesInput.fill(customer.notes));
     }
-
+    @logStep("Get values from Edit Customer form inputs")
     async getInputValues() {
         const [email, name, country, city, street, house, flat, phone, notes] = await Promise.all([
             this.emailInput.inputValue(),
@@ -59,14 +65,16 @@ export class EditCustomerPage extends SalesPortalPage {
         return { email, name, country, city, street, house, flat, phone, notes };
     }
 
+    @logStep("Click Save Changes button")
     async clickSaveChanges() {
         await this.saveChangesButton.click();
     }
-
+    @logStep("Click Delete Customer button")
     async clickDeleteCustomer() {
         await this.deleteCustomerButton.click();
     }
 
+    @logStep("Get form errors from Edit Customer form")
     async getFormErrors() {
         return {
             email: (await this.emailError.isVisible()) ? await this.emailError.innerText() : null,

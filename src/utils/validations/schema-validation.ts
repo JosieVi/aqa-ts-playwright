@@ -1,16 +1,21 @@
-import { expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import Ajv from "ajv";
+import { logStep } from "utils/reporter.utils";
 
 export function validateSchema(expectedSchema: object, body: object) {
-  const ajv = new Ajv();
-  const validate = ajv.compile(expectedSchema);
+  return test.step("Validate response body against JSON schema", () => {
+    const ajv = new Ajv();
+    const validate = ajv.compile(expectedSchema);
 
-  const isValid = validate(body);
+    const isValid = validate(body);
 
-  if (!isValid) {
-    console.log("Data is not valid according to the schema.");
-    console.log(validate.errors);
-  }
-  expect.soft(validate.errors == null, "Should not have JSON schema errors").toBe(true);
-  expect.soft(isValid, "Schema validation result").toBe(true);
+    if (!isValid) {
+      console.log("Data is not valid according to the schema.");
+      console.log(validate.errors);
+    }
+    // v1
+
+    expect.soft(validate.errors == null, "Should not have JSON schema errors").toBe(true);
+    expect.soft(isValid, "Schema validation result").toBe(true);
+  });
 }

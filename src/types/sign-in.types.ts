@@ -1,15 +1,5 @@
-import { IResponseFields } from "./api.types";
-
-export interface ILoginFromResponse extends IResponseFields {
-    User: {
-        _id: string;
-        username: string;
-        firstName: string;
-        lastName: string;
-        roles: string[];
-        createdOn: string;
-    };
-}
+// Description:
+// This type defines the structure of the credentials used for signing in to the application.
 
 export interface ICredentials {
     email: string;

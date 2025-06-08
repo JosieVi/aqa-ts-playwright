@@ -1,15 +1,23 @@
-import { Page } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import { IResponse } from "types/api.types";
+import { PageHolder } from "./page-holder.page";
 
-export abstract class BasePage {
-    constructor(protected page: Page) { }
+export abstract class BasePage extends PageHolder {
 
-    async interceptRequest<T extends unknown[]>(url: string, triggerAction: (...args: T) => Promise<void>, ...args: T) {
-        const [request] = await Promise.all([
-            this.page.waitForRequest((request) => request.url().includes(url)),
-            triggerAction(...args),
-        ]);
-        return request;
+    // constructor(protected page: Page) { }
+
+    async interceptRequest<T extends unknown[]>(
+        url: string,
+        triggerAction: (...args: T) => Promise<void>,
+        ...args: T
+    ) {
+        return await test.step(`Intercept Request for URL: ${url}`, async () => {
+            const [request] = await Promise.all([
+                this.page.waitForRequest((request) => request.url().includes(url)),
+                triggerAction(...args),
+            ]);
+            return request;
+        });
     }
 
     async interceptResponse<U extends object | null, T extends unknown[]>(
@@ -21,10 +29,12 @@ export abstract class BasePage {
             this.page.waitForResponse((response) => response.url().includes(url)),
             triggerAction(...args),
         ]);
-        return {
-            status: response.status(),
-            headers: response.headers(),
-            body: (await response.json()) as U,
-        };
+        return await test.step(`Intercept Response for URL: ${url}`, async () => {
+            return {
+                status: response.status(),
+                headers: response.headers(),
+                body: (await response.json()) as U,
+            };
+        });
     }
 }

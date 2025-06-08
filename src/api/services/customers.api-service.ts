@@ -1,4 +1,4 @@
-import { APIRequestContext, expect } from "@playwright/test";
+import { test, APIRequestContext } from "@playwright/test";
 import { CustomersController } from "api/controllers/customers.controller";
 import { generateCustomerData } from "data/customers/generate-customer.data";
 import { STATUS_CODES } from "data/status-codes.data";
@@ -7,12 +7,15 @@ import { logStep } from "utils/reporter.utils";
 import { validateResponse } from "utils/validations/response-validation";
 
 export class CustomersApiService {
+
+    // Create a new instance of CustomersController with the provided APIRequestContext
     controller: CustomersController;
+
     constructor(request: APIRequestContext) {
         this.controller = new CustomersController(request);
     }
 
-    @logStep("Create Customer via API")
+    @logStep("Create a new customer via API")
     async create(token: string, customData?: ICustomer) {
         const body = generateCustomerData(customData);
         const response = await this.controller.create(body, token);

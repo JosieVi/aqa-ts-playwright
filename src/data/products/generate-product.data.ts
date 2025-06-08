@@ -1,3 +1,7 @@
+// Description:
+// This file contains a generator function for product data used in tests.
+// It uses Faker.js to create realistic product information for testing purposes.
+
 import { faker } from "@faker-js/faker";
 import { IProduct } from "types/products.types";
 import { getRandromEnumValue } from "utils/enum.utils";
@@ -13,8 +17,3 @@ export function generateProductData(params?: Partial<IProduct>): IProduct {
         ...params,
     };
 }
-
-// Products's name should contain only 3-40 alphanumerical characters and one space between
-// Price should be in range 1-99999
-// Amount should be in range 0-999
-// Notes should be in range 0-250 and without < or > symbols

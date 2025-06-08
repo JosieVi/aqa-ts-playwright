@@ -1,3 +1,6 @@
+// Description:
+// This schema defines the structure of the response for fetching all customers.
+
 export const allCustomersSchema = {
     type: "object",
     properties: {

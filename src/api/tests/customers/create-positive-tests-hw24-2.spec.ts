@@ -6,6 +6,7 @@ import { validateSchema } from "utils/validations/schema-validation";
 import { test, expect } from "fixtures/controllers.fixture";
 import { validateResponse } from "utils/validations/response-validation";
 import { positiveTestCases } from "data/positive-customers.data";
+import { TAGS } from "data/test-tags.data";
 
 test.describe("[API] [Customers] [Create]", () => {
     let id = "";
@@ -23,13 +24,15 @@ test.describe("[API] [Customers] [Create]", () => {
     });
 
     positiveTestCases.forEach(({ name, data }) => {
-        test(name, async ({ customersController }) => {
-            const customerResponse = await customersController.create(data, token);
-            id = customerResponse.body.Customer._id;
-            validateSchema(customerSchema, customerResponse.body);
-            validateResponse(customerResponse, STATUS_CODES.CREATED, true, null);
-            expect.soft(customerResponse.body.Customer).toMatchObject({ ...data });
-        });
+        test(name,
+            { tag: [TAGS.REGRESSION, TAGS.API, TAGS.SMOKE] },
+            async ({ customersController }) => {
+                const customerResponse = await customersController.create(data, token);
+                id = customerResponse.body.Customer._id;
+                validateSchema(customerSchema, customerResponse.body);
+                validateResponse(customerResponse, STATUS_CODES.CREATED, true, null);
+                expect.soft(customerResponse.body.Customer).toMatchObject({ ...data });
+            });
     });
 
     test.afterEach(async ({ customersController }) => {

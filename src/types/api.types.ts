@@ -1,3 +1,6 @@
+// Description:
+// These interfaces define the structure of the API responses and request options for customer-related operations.
+
 export interface IRequestOptions {
     baseURL?: string;
     url: string;
@@ -18,9 +21,10 @@ export interface IResponseFields {
     ErrorMessage: string | null;
 }
 
+export type sortDirection = "asc" | "desc";
 
+export type customersSortField = "createdOn" | "email" | "name" | "country";
 
-// ???
 export interface ILoginResponseBody extends IResponseFields {
     User: {
         _id: string;
@@ -31,7 +35,3 @@ export interface ILoginResponseBody extends IResponseFields {
         createdOn: string;
     };
 }
-
-export type sortDirection = "asc" | "desc";
-
-export type customersSortField = "createdOn" | "email" | "name" | "country";

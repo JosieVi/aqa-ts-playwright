@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import { AddNewCustomerPage } from "ui/pages/customers/add-new-customer.page";
 import { CustomerDetailsPage } from "ui/pages/customers/customer-details.page";
 import { CustomersPage } from "ui/pages/customers/customers.page";
@@ -6,6 +6,8 @@ import { EditCustomerPage } from "ui/pages/customers/edit-customer.page";
 import { logStep } from "utils/reporter.utils";
 
 export class CustomersUIService {
+
+    // Initialize the CustomersPage, AddNewCustomerPage, EditCustomerPage, and CustomerDetailsPage instances
     private customersPage: CustomersPage;
     private addNewCustomerPage: AddNewCustomerPage;
     private editCustomerPage: EditCustomerPage;
@@ -23,11 +25,13 @@ export class CustomersUIService {
         await this.addNewCustomerPage.waitForOpened();
     }
 
+    @logStep("Open Edit Customer Page from Customers Page")
     async openEditPage(email: string) {
         await this.customersPage.clickTableAction(email, "edit");
         await this.editCustomerPage.waitForOpened();
     }
 
+    @logStep("Open Customer Details Page from Customers Page")
     async openDetailsPage(email: string) {
         await this.customersPage.clickTableAction(email, "details");
         await this.customerDetailsPage.waitForOpened();
