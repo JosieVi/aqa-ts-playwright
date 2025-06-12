@@ -1,6 +1,3 @@
-// Description:
-// This file defines the Mock class for API mocking in Playwright tests, including methods for mocking customers, products, and metrics endpoints.
-
 import { Page } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { STATUS_CODES } from "data/status-codes.data";

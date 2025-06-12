@@ -1,6 +1,3 @@
-// Description:
-// This file extends the base test fixture to include controllers for customers, products, and sign-in.
-
 import { test as base } from "@playwright/test";
 import { CustomersController } from "api/controllers/customers.controller";
 import { ProductsController } from "api/controllers/products-hw26.controller";

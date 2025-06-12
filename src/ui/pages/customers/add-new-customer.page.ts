@@ -1,12 +1,10 @@
 
 import { ICustomer } from "types/customer.types";
 import { SalesPortalPage } from "../sales-portal.page";
-import { test } from "@playwright/test";
 import { logStep } from "utils/reporter.utils";
 
 export class AddNewCustomerPage extends SalesPortalPage {
 
-    // Locators for the Add New Customer page
     emailInput = this.page.locator("#inputEmail");
     nameInput = this.page.locator("#inputName");
     countryInput = this.page.locator("#inputCountry");
@@ -18,7 +16,6 @@ export class AddNewCustomerPage extends SalesPortalPage {
     notesInput = this.page.locator("#textareaNotes");
     saveNewCustomerButton = this.page.locator("#save-new-customer");
 
-    // Unique element to identify the page
     uniqueElement = this.saveNewCustomerButton;
 
     @logStep("Fill in Add New Customer form")

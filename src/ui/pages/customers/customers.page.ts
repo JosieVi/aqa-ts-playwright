@@ -6,14 +6,13 @@ import { DeleteCustomerModal } from "../modals/customers/delete.modal";
 import { COUNTRIES } from "data/customers/countries.data";
 import { customersSortField } from "types/api.types";
 import { logStep } from "utils/reporter.utils";
-import { log } from "console";
 
 export class CustomersPage extends SalesPortalPage {
-    //Modals
+    // Modals
     readonly filterModal = new FilterModal(this.page);
     readonly deleteCustomerModal = new DeleteCustomerModal(this.page);
 
-    //Header menu
+    // Header menu
     readonly addNewCustomerButton = this.page.getByRole("button", { name: "Add Customer" });
     readonly filterButton = this.page.getByRole("button", { name: "Filter" });
     readonly searchInput = this.page.locator('input[type="search"]');
@@ -21,10 +20,10 @@ export class CustomersPage extends SalesPortalPage {
     readonly chipButton = this.page.locator(".chip");
     readonly searchChipButton = this.page.locator('div[data-chip-customers="search"]');
 
-    //Table
+    // Table
     readonly table = this.page.locator("#table-customers");
 
-    //Table headers
+    // Table headers
     readonly tableHeader = this.page.locator("#table-customers th div");
     readonly emailHeader = this.tableHeader.filter({ hasText: "Email" });
     readonly nameHeader = this.tableHeader.filter({ hasText: "Name" });
@@ -32,7 +31,7 @@ export class CustomersPage extends SalesPortalPage {
     // readonly createdOnHeader = this.tableHeader.filter({ hasText: "Created On" }).nth(1);
     readonly createdOnHeader = this.tableHeader.filter({ hasText: 'Created On' }).filter({ has: this.page.locator('[onclick*="sortCustomersInTable"]') });
 
-    //Table Body
+    // Table Body
     readonly tableRow = this.page.locator("#table-customers tbody tr");
     readonly tableRowByEmail = (email: string) => this.tableRow.filter({ has: this.page.getByText(email) });
     readonly emailCell = (email: string) => this.tableRowByEmail(email).locator("td").nth(1);
@@ -78,22 +77,26 @@ export class CustomersPage extends SalesPortalPage {
 
     async getCustomerData(customerEmail: string): Promise<ICustomerInTable> {
         // version 1
-        // return {
-        //   email: await this.emailCell(email).textContent(),
-        //   name: await this.nameCell(email).textContent(),
-        //   country: await this.countryCell(email).textContent(),
-        //   createdOn: await this.createdOnCell(email).textCnt(),
-        //   createdOn: await this.createdOnCell(email).textContent(),
-        // };
+        /*
+        return {
+          email: await this.emailCell(email).textContent(),
+          name: await this.nameCell(email).textContent(),
+          country: await this.countryCell(email).textContent(),
+          createdOn: await this.createdOnCell(email).textCnt(),
+          createdOn: await this.createdOnCell(email).textContent(),
+        };
+        */
 
         // version 2
-        // const [email, name, country, createdOn] = await Promise.all([
-        //   this.emailCell(customerEmail).textContent(),
-        //   this.nameCell(customerEmail).textContent(),
-        //   this.countryCell(customerEmail).textContent(),
-        //   this.createdOnCell(customerEmail).textContent(),
-        // ]);
-        // return { email, name, country, createdOn };
+        /*
+        const [email, name, country, createdOn] = await Promise.all([
+          this.emailCell(customerEmail).textContent(),
+          this.nameCell(customerEmail).textContent(),
+          this.countryCell(customerEmail).textContent(),
+          this.createdOnCell(customerEmail).textContent(),
+        ]);
+        return { email, name, country, createdOn };
+        */
 
         // version 3
         return await test.step(`Get customer data for email: ${customerEmail}`, async () => {

@@ -2,10 +2,6 @@
 import { COUNTRIES } from "data/customers/countries.data";
 import { expect, test } from "fixtures/ui-services.fixture";
 import { convertToDateAndTime } from "utils/date.utils";
-/*
-import { apiConfig } from "config/api-config";
-import { expect, test } from "fixtures/business-steps.fixture";
-*/
 
 test.describe("[UI] [Customers] [Details]", async () => {
     test("Should display valid customer data",
@@ -31,28 +27,14 @@ test.describe("[UI] [Customers] [Details]", async () => {
             };
             const id = "67cb88af92fabac8b74e2f72";
 
-            // Mock the API response for customer details v1
-            /*            
-            await mock.customers({
-                Customers: [
-                    {
-                        _id: id,
-                        ...expected,
-                    },
-                ],
+            await mock.customerDetails({
+                Customer:
+                    { _id: id, ...expected },
                 ErrorMessage: null,
-                IsSuccess: true,
-                sorting: {
-                    sortField: "createdOn",
-                    sortOrder: "desc",
-                },
+                IsSuccess: true
             });
-            */
 
-
-            await mock.customerDetails({ Customer: { _id: id, ...expected }, ErrorMessage: null, IsSuccess: true });
-
-            // Open the home page and navigate to the Customers module and open the customer details v1
+            // v1
             /*            
             await loginAsLocalUser();
             await homePage.clickModuleButton("Customers");

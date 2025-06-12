@@ -18,30 +18,22 @@ test.describe("[E2E] [UI] [Products] [Create]", async () => {
             page,
             productsPage }) => {
 
-            // Precondition
-            // Open the home page
             await homeUIService.openAsLoggedInUser();
 
             token = (await page.context().cookies()).find((c) => c.name === "Authorization")!.value;
 
-            // Open the Products module and open the Add Product page
             await homeUIService.openModule("Products");
             await productsUIService.openAddPage();
 
-            // Action
-            // Create a new product with valid data
             const createdProduct = await addNewProductUIService.create();
             const response = await productsController.getById(createdProduct._id, token);
             id = createdProduct._id;
 
-            // Check that the product is created successfully via API
             expect(response.status).toBe(STATUS_CODES.OK);
             productsPage.waitForNotification(NOTIFICATIONS.PRODUCT_CREATED);
         }
     );
 
-    // Postcondition
-    // Delete the created product
     test.afterEach(async ({ productsController }) => {
         await productsController.delete(id, token);
     });

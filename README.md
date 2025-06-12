@@ -1,202 +1,318 @@
-# aqa-ts-playwright
+# 🧪 AQA with TypeScript & Playwright
 
-### Task 1 HW-18: Разработка смоук тест-сьюта для формы регистрации
+> Automated testing project using **Playwright** and **TypeScript**  
+> Author: Olga Marushkina  
+> Instructor: [Anatoly Karpovich](https://github.com/anatoly-karpovich)
 
-Разработать **smoke test suite** для проверки функциональности **формы регистрации** на странице:  
-🔗 [https://anatoly-karpovich.github.io/demo-login-form/](https://anatoly-karpovich.github.io/demo-login-form/)
+![TypeScript](https://img.shields.io/badge/language-TypeScript-blue.svg)
+![Playwright](https://img.shields.io/badge/framework-Playwright-green)
+![Status](https://img.shields.io/badge/progress-Homework_Completed-brightgreen)
 
-## Требования к полям формы:
+---
 
-**Username**  
-- Обязательное поле  
-- Длина от **3 до 40 символов** включительно  
-- **Недопустимы** префиксные/постфиксные пробелы  
-- Имя, состоящее только из пробелов, считается **некорректным**
+## HW-18
 
-**Password**  
-- Обязательное поле  
-- Длина от **8 до 20 символов** включительно  
-- Пароль должен содержать **хотя бы одну букву в верхнем и одну в нижнем регистрах**  
-- Пароль, состоящий только из пробелов, считается **некорректным**
+### Task #1  
+**Create a smoke test suite for the registration form**
 
-### Task 1 HW-18: Разработка смоук-теста для проверки регистрации
+1. Navigate to: [Registration Form](https://anatoly-karpovich.github.io/demo-login-form/)
+2. Implement smoke tests based on the following field validations:
 
-Создать ОДИН смоук тест со следующими шагами:
+**Username Field:**
+- Required
+- Length: 3 to 40 characters
+- Leading/trailing spaces are invalid
+- Only spaces = invalid
 
-1. Переход на страницу https://anatoly-karpovich.github.io/demo-registration-form/
-2. Заполните форму регистрации
-3. Проверьте, что пользователь успешно зарегистрирован
+**Password Field:**
+- Required
+- Length: 8 to 20 characters
+- Must contain both uppercase and lowercase letters
+- Only spaces = invalid
 
+---
 
-### Task 1 HW-19: Разработка теста
+### Task #2  
+**Create a single smoke test for user registration**
 
-Разработать тест со следующими шагами:
+1. Navigate to: [Demo Registration Page](https://anatoly-karpovich.github.io/demo-registration-form/)
+2. Fill in the registration form
+3. Verify successful registration
 
-  - Открыть url https://the-internet.herokuapp.com/
-  - Перейти на страницу Dynamic Controls
-  - Дождаться появления кнопки Remove
-  - Завалидировать текста в заголовке страницы
-  - Чекнуть чекбокс
-  - Кликнуть по кнопке Remove
-  - Дождаться исчезновения чекбокса
-  - Проверить наличие кнопки Add
-  - Завалидировать текст It's gone!
-  - Кликнуть на кнопку Add
-  - Дождаться появления чекбокса
-  - Завалидировать текст It's back!
+---
 
-### Task 2 HW-19: Разработка теста
+## HW-19
 
-Разработать тест со следующими шагами:
+### Task #1  
+**Create a UI test for dynamic controls**
 
- - Открыть url https://anatoly-karpovich.github.io/aqa-course-project/#
- - Войти в приложения используя учетные данные test@gmail.com / 12345678 при этом:
- - Дождаться исчезновения спиннеров
- - Проверить действительно ли пользователь с логином Anatoly вошел в систему
- - Проверить скриншотом боковое навигационное меню с выбранной страницей Home
+1. Open [The Internet App](https://the-internet.herokuapp.com/)
+2. Go to the “Dynamic Controls” page
+3. Wait for the "Remove" button
+4. Validate the page header
+5. Check the checkbox
+6. Click the "Remove" button
+7. Wait until the checkbox disappears
+8. Verify the "Add" button appears
+9. Validate the "It's gone!" message
+10. Click "Add"
+11. Wait for checkbox to reappear
+12. Validate the "It's back!" message
 
+---
 
-### Task 1 HW-20: Разработка теста
+### Task #2  
+**Create a UI test for login and home screen validation**
 
-Создать тест сьют используя DDT подход с негативными тест-кейсами по регистрации на сайте
-https://anatoly-karpovich.github.io/demo-login-form/
+1. Open [AQA Course Project](https://anatoly-karpovich.github.io/aqa-course-project/#)
+2. Login using `test@gmail.com / 12345678`
+3. Wait until loading spinners disappear
+4. Verify the login name is `Anatoly`
+5. Validate the side navigation menu with screenshot (page: Home)
 
-## Требования:
+---
 
-**Страница регистрации:**
-  Username: обязательное, от 3 до 40 символов включительно, запрещены префиксные/постфиксные пробелы, как и имя состоящее из одних пробелов
-  Password: обязательное, от 8 до 20 символов включительно, необходима хотя бы одна буква в верхнем и нижнем регистрах, пароль из одних пробелов запрещен
+## HW-20
 
-**Страница логина:**
-  Username: обязательное
-  Password: обязательное
+### Task #1  
+**Create a DDT test suite with negative registration scenarios**
 
-### Task 2 HW-20: Разработка теста
+Use: [Login Form](https://anatoly-karpovich.github.io/demo-login-form/)
 
-Разработать тест со следующими шагами:
+**Registration Page Validation:**
+- **Username:** required, 3–40 chars, no whitespace-only or trailing/leading spaces
+- **Password:** required, 8–20 chars, must include both upper/lowercase, no space-only input
 
-  - Открыть url https://anatoly-karpovich.github.io/demo-shopping-cart/
-  - Добавить продукты 2,4,6,8,10
-  - Завалидировать бейдж с количеством
-  - Открыть чекаут
-  - Завалидировать сумму и продукты
-  - Ввести все найденные вами промокоды (вспоминаем первую лекцию)
-  - Завалидировать конечную сумму
-  - Зачекаутиться
-  - Завалидировать сумму
+**Login Page Validation:**
+- **Username:** required
+- **Password:** required
 
-### Task 1 HW-21: Разработка теста
+---
 
-Написать Page Object класс для страницы Sign In:
-  - email input
-  - password input
-  - login button
-  - fillCredentials method
-  - click on login button method
+### Task #2  
+**Create a UI test for product checkout validation**
 
-### Task 2 HW-21: Разработка е2е теста
+1. Open [Shopping Cart App](https://anatoly-karpovich.github.io/demo-shopping-cart/)
+2. Add products with IDs: 2, 4, 6, 8, 10
+3. Validate the cart badge count
+4. Open the checkout
+5. Verify selected products and total sum
+6. Apply all valid promo codes (from first lecture)
+7. Confirm updated total price
+8. Complete checkout
+9. Validate final sum
 
-Разработать е2е тест со следующими шагами:
- - Открыть url https://anatoly-karpovich.github.io/aqa-course-project/#
- - Войти в приложения используя ваши учетные данные 
- - Создать покупателя (модуль Customers)
- - Верифицировать появившуюся нотификацию
- - Верифицировать созданного покупателя в таблице (сравнить все имеющиеся поля, покупатель должен быть самым верхним)
+---
 
- ### Task 1 HW-22: Разработка е2е теста
+## HW-21
 
-Разработать е2е тест со следующими шагами:
-1. Зайти на сайт Sales Portal
-2. Залогиниться с вашими кредами
-3. Перейти на страницу Customers List
-4. Перейти на станицу Add New Customer
-5. Создать покупателя
-6. Проверить наличие покупателя в таблице
-7. Кликнуть на кнопку "Delete" в таблице для созданного покупателя
-8. В модалке удаления кликнуть кнопку Yes, Delete
-9. Дождаться исчезновения модалки и загрузки страницы
-10. Проверить, что покупатель отсутствует в таблице
+### Task #1  
+**Implement a Page Object for the Sign In page**
 
-## Вам понадобится:
+- Email input
+- Password input
+- Login button
+- Method to fill in credentials
+- Method to click login
 
-- PageObject модалки удаления покупателя
-- Подключить модалку в PageObject страницы Customers
-- Использовать фикстуры
+---
 
-### Task 1 HW-23: Smoke API test
+### Task #2  
+**Develop an end-to-end test for creating a customer**
 
-Написать смоук API тест на логин:
-  - Создать и проверить схему
-  - Проверить статус
-  - Проверить наличие токена в хедерах
+1. Open [AQA Course Project](https://anatoly-karpovich.github.io/aqa-course-project/#)
+2. Login with your credentials
+3. Navigate to **Customers** module
+4. Create a new customer
+5. Validate success notification
+6. Verify new customer is at the top of the table (compare all fields)
 
-### Task 2 HW-23: Smoke API test
+---
 
-Написать смоук API тест на получение всех кастомеров (без фильтрационных параметров) со следующими шагами:
-  - Залогиниться
-  - Создать кастомера и проверить 200й статус
-  - Получить всех кастомеров
-  - Создать и проверить схему
-  - Проверить статус
-  - Проверить, что в массиве тела респонса есть созданный кастомер
-  - Проверить поля IsSuccess и ErrorMessage
+## HW-22
 
-### Task 1 HW-24: Create a controller
+### Task #1  
+**E2E test: create and delete a customer**
 
-Реализовать SignInController по аналогии с CustomersController и использовать его во всех уже написанных АПИ тестах
+1. Login to Sales Portal
+2. Go to **Customers List**
+3. Navigate to **Add New Customer**
+4. Create a new customer
+5. Confirm customer is listed
+6. Click “Delete” on the new customer
+7. Confirm deletion in modal (click “Yes, Delete”)
+8. Wait for modal to close and page to reload
+9. Verify customer is no longer listed
 
-### Task 2 HW-24: Smoke API test
+**You’ll need:**
+- Page Object for delete modal
+- Integration of modal into Customers Page Object
+- Fixtures
 
-Используя DDT подход, напишите тест сьют для проверки эндпоинта создания покупателя:
-  - с позитивными проверками
-  - с негативными проверками
+---
 
-Используйте SignInConroller, CustomersController, после каждого теста, где создастся кастомер - удаляйте его.
+## HW-23
 
-  Требования:
-  - Email: обязательное, уникальный
-  - Name: обязательное, Customer's name should contain only 1-40 alphabetical characters and one space between
-  - Country: обязательное, ['USA', 'Canada', 'Belarus', 'Ukraine', 'Germany', 'France', 'Great Britain', 'Russia']
-  - City: обязательное, City's name should contain only 1-20 alphabetical characters and one space between
-  - Street: обязательное, Street should contain only 1-40 alphanumerical characters and one space between
-  - House: обязательное, House number should be in range 1-999
-  - Flat: обязательное, Flat number should be in range 1-9999
-  - Phone: обязательное, Mobile Number should be at least 10 characters (max 20) and start with a +
-  - Notes: Notes should be in range 0-250 and without < or > symbols
+### Task #1  
+**Write a smoke API test for login**
 
-### Task 1 HW-25: Integration tests
+- Create and validate schema
+- Check status code
+- Verify presence of token in headers
 
-Создайте 3 интеграционных теста для проверки следующих метрик на странице Home:
-1. Orders This Year
-2. New Customers
-3. Canceled Orders
+---
 
-Для реализации подмокивайте респонс эндпоинта metrics
+### Task #2  
+**Write a smoke API test for retrieving all customers**
 
-  - Orders This Year: Metrics.orders.totalOrders
-  - New Customers: Metrics.customers.customers
-  - Canceled Orders: Metrics.orders.totalCanceledOrders
+1. Login
+2. Create a new customer and validate 200 status
+3. Retrieve all customers
+4. Create and validate schema
+5. Verify status code
+6. Confirm created customer is in the response array
+7. Validate `IsSuccess` and `ErrorMessage` fields
 
-Остальной объект оставьте как есть сейчас в респонсе, замените просто на ваши данные в метриках нужных
+---
 
-### Task 1 HW-26: E2E test
+## HW-24
 
-Реализовать E2E тест по созданию продукта (модуль Products) по аналогии c Customers с шагами
-  - залогиниться
-  - Перейти на страницу Products List
-  - Перейти на страницу Add New Product
-  - Заполнить поля валидными данными
-  - Сохранить продукт
-  - Проверить наличие продукта в таблице
+### Task #1  
+**Create a SignInController**
 
-Требования найдете в валидационных сообщениях на фронте:) Уникальное поле - Имя
+- Implement `SignInController` similar to `CustomersController`
+- Use it across all previously written API tests
 
-### Task 1 HW-27: Декораторы
+---
 
-  - Имплементируйте testStep декоратор как в лекции
-  - Используйте его на все методы сервисов/пейджей/контроллеров, используя кастомные названия шагов
-  - Создайте enum TAGS, со значениями SMOKE, REGRESSION, UI, API, VISUAL_REGRESSION
-  - Используйте теги из енама в КАЖДОМ уже реализованном у вас тесте
-  - Реализуйте переиспользование логина для всех UI тестов (кроме тестов проверяющих логин)
-  - Тесты НЕ должны падать ;)
-  - Приложите скриншот отчета с проходящими тестами и реализованным всем из задания ;)
+### Task #2  
+**Create a DDT-based test suite for creating customers**
+
+- Include both positive and negative tests  
+- Use `SignInController`, `CustomersController`  
+- Clean up customers after each test
+
+**Validation Rules:**
+- **Email:** required, unique
+- **Name:** 1–40 letters + one space allowed
+- **Country:** required, allowed values: `USA`, `Canada`, `Belarus`, etc.
+- **City:** 1–20 letters + one space
+- **Street:** 1–40 alphanumeric chars + one space
+- **House:** 1–999
+- **Flat:** 1–9999
+- **Phone:** 10–20 digits, starts with `+`
+- **Notes:** up to 250 chars, no `<` or `>`
+
+---
+
+## HW-25
+
+### Task #1  
+**Integration tests for metrics**
+
+Mock the response from `metrics` endpoint and verify:
+
+1. **Orders This Year** — `Metrics.orders.totalOrders`
+2. **New Customers** — `Metrics.customers.customers`
+3. **Canceled Orders** — `Metrics.orders.totalCanceledOrders`
+
+Preserve structure of other response fields.
+
+---
+
+## HW-26
+
+### Task #1  
+**E2E test: create a product**
+
+1. Login
+2. Go to **Products List**
+3. Navigate to **Add New Product**
+4. Fill in fields with valid data
+5. Save the product
+6. Validate its presence in the table
+
+Use validation messages on the frontend. Field **Name** must be unique.
+
+---
+
+## HW-27
+
+### Task #1  
+**Decorators and test improvements**
+
+1. Implement `testStep` decorator (as shown in lecture)
+2. Use it on all service/page/controller methods with custom step names
+3. Create `TAGS` enum with: `SMOKE`, `REGRESSION`, `UI`, `API`, `VISUAL_REGRESSION`
+4. Apply tags in every existing test
+5. Implement login reuse across all UI tests (excluding login-specific ones)
+6. Ensure **no test failures**
+7. Attach screenshot of the test report with passing results and implemented features ✅
+
+---
+
+## 📂 Project Structure
+
+```
+AQA-TS-PLAYWRIGHT
+├── allure-report/
+├── allure-results/
+├── node_modules/
+├── playwright-report/
+└── src/
+├── .auth/
+├── api/
+│ ├── apiClients/
+│ ├── controllers/
+│ ├── services/
+│ └── tests/
+├── config/
+├── data/
+├── fixtures/
+├── types/
+├── ui/
+│ ├── pages/
+│ ├── services/
+│ └── tests/
+└── utils/
+├── notifications/
+├── validations/
+├── date.utils.ts
+├── enum.utils.ts
+├── reporter.utils.ts
+└── request-params.utils.ts
+```
+
+---
+
+## 📌 Technologies
+
+| Tech         | Description                  |
+|--------------|------------------------------|
+| Playwright   | UI automation framework      |
+| TypeScript   | Strongly typed JS superset   |
+| Allure       | Reporting & visualization    |
+
+---
+
+## ✅ Run Tests
+
+```bash
+# UI Tests
+  npm run test:ui
+
+# API Tests
+  npm run test:api
+
+# UI mode
+  npm run ui-mode
+
+# Allure Report
+  npm npm run allure-report-open
+```
+
+---
+
+## 📷 Sample Report
+
+> ![Allure Report Sample](./assets/sample-report.png)

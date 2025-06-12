@@ -46,7 +46,6 @@ test.describe("[API] [Customers] Smoke Test", () => {
             const responseBody = await customersResponse.json();
             validateSchema(allCustomersSchema, responseBody);
 
-            // expect.soft({ ...customerData }).toMatchObject(_.omit(customerBody.Customer, "_id", "createdOn"));
             expect.soft(responseBody.ErrorMessage).toBe(null);
             expect.soft(responseBody.IsSuccess).toBe(true);
 

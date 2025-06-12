@@ -5,16 +5,13 @@ import { logStep } from "utils/reporter.utils";
 
 export class ProductsPage extends SalesPortalPage {
 
-    // Initializing the ProductDetailsModal
     readonly detailsModal = new ProductDetailsModal(this.page);
 
-    // Locators for elements in the Products page
     readonly tableRow = this.page.locator("#table-products tbody tr");
     readonly tableRowByName = (name: string) => this.tableRow.filter({ has: this.page.getByText(name, { exact: true }) });
     readonly detailsButton = (name: string) => this.tableRowByName(name).getByTitle("Details");
     readonly addNewProductButton = this.page.getByRole("button", { name: "Add Product" });
 
-    // Unique element to identify the Products page
     readonly uniqueElement = this.addNewProductButton;
 
     async clickDetails(name: string) {

@@ -1,7 +1,3 @@
-// Description:
-// This file contains a generator function for product data used in tests.
-// It uses Faker.js to create realistic product information for testing purposes.
-
 import { faker } from "@faker-js/faker";
 import { IProduct } from "types/products.types";
 import { getRandromEnumValue } from "utils/enum.utils";

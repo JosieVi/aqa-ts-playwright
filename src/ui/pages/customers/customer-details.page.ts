@@ -6,7 +6,6 @@ import { logStep } from "utils/reporter.utils";
 
 export class CustomerDetailsPage extends SalesPortalPage {
 
-    // Locators for the Customer Details page
     email = this.page.locator("#customer-email");
     name = this.page.locator("#customer-name");
     phone = this.page.locator("#customer-phone");
@@ -18,7 +17,6 @@ export class CustomerDetailsPage extends SalesPortalPage {
     notes = this.page.locator("#customer-notes");
     registrationDate = this.page.locator("#customer-created-on");
 
-    // Unique element to identify the page
     uniqueElement = this.registrationDate;
 
     // Call a method from the browser to open a page from anywhere in the project (specifically for this project)

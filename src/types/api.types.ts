@@ -1,6 +1,3 @@
-// Description:
-// These interfaces define the structure of the API responses and request options for customer-related operations.
-
 export interface IRequestOptions {
     baseURL?: string;
     url: string;

@@ -24,8 +24,11 @@ test.describe("[API] [Customers] [Create]", () => {
         test(name,
             { tag: [TAGS.CRITICAL_PATH, TAGS.API] },
             async ({ customersController }) => {
-                const customerResponse = await customersController.create(data, token);
+                const customerResponse = await customersController.update("6849bf511c508c5d5e52929d", data, token);
+                console.log("generated data: ", data);
+                console.log("response: ", customerResponse.body, "status: ", customerResponse.status);
                 validateResponse(customerResponse, STATUS_CODES.BAD_REQUEST, false, expectedError);
+
             });
     });
 });

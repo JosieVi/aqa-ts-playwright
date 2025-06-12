@@ -1,7 +1,3 @@
-// Description:
-// This file contains a generator function for customer data.
-// It uses Faker.js to create realistic customer information for testing purposes.
-
 import { faker } from "@faker-js/faker";
 import { ICustomer } from "types/customer.types";
 import { COUNTRIES } from "data/customers/countries.data";

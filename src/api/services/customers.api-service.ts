@@ -8,7 +8,6 @@ import { validateResponse } from "utils/validations/response-validation";
 
 export class CustomersApiService {
 
-    // Create a new instance of CustomersController with the provided APIRequestContext
     controller: CustomersController;
 
     constructor(request: APIRequestContext) {

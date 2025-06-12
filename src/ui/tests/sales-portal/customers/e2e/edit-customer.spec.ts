@@ -13,16 +13,14 @@ test.describe("[E2E] [UI] [Customers] [Edit]", () => {
             customersUIService,
             editCustomerUIService,
             customersController,
-            customersApiService }) => {
+            customersApiService
+        }) => {
 
-            // Open the home page and log in as a user
-            homeUIService.openAsLoggedInUser();
+            await homeUIService.openAsLoggedInUser();
             token = (await page.context().cookies()).find((c) => c.name === "Authorization")!.value;
 
-            // Create a new customer using the Customers API service
             const createdCustomer = await customersApiService.create(token);
 
-            // Verify that the created customer can be edited
             await homeUIService.openModule("Customers");
             await customersUIService.openEditPage(createdCustomer.email);
             const updatedCustomer = await editCustomerUIService.edit();
@@ -31,7 +29,6 @@ test.describe("[E2E] [UI] [Customers] [Edit]", () => {
             expect(response.status).toBe(STATUS_CODES.OK);
         });
 
-    // Clean up after the test by deleting the created customer
     test.afterEach(async ({ customersController }) => {
         await customersController.delete(id, token);
     });

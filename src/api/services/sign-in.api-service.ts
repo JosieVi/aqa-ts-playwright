@@ -7,7 +7,6 @@ import { logStep } from "utils/reporter.utils";
 
 export class SignInApiService {
 
-    // Create a new instance of SignInController with the provided APIRequestContext
     controller: SignInController;
 
     constructor(request: APIRequestContext) {

@@ -1,6 +1,3 @@
-// Description:
-// These interfaces define the structure of product-related API responses and requests.
-
 import { MANUFACTURERS } from "data/products/manufacturers.data";
 import { IResponseFields, sortDirection } from "./api.types";
 

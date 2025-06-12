@@ -6,7 +6,6 @@ import { logStep } from "utils/reporter.utils";
 
 export class EditCustomerPage extends SalesPortalPage {
 
-    // Locators
     // Modals
     deleteCustomerModal = new DeleteCustomerModal(this.page);
 
@@ -34,7 +33,6 @@ export class EditCustomerPage extends SalesPortalPage {
     saveChangesButton = this.page.getByRole("button", { name: "Save Changes" });
     deleteCustomerButton = this.page.getByRole("button", { name: "Delete Customer" });
 
-    // Unique element for the page
     uniqueElement = this.saveChangesButton;
 
     @logStep("Fill in Edit Customer form")

@@ -1,6 +1,3 @@
-// Description:
-// This file defines an enumeration for HTTP status codes used in the application.
-
 export enum STATUS_CODES {
     OK = 200,
     CREATED = 201,

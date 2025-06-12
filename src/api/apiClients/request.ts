@@ -3,10 +3,8 @@ import _ from "lodash";
 import { IRequestOptions, IResponse } from "types/api.types";
 import { logStep } from "utils/reporter.utils";
 
-//
 export class RequestApi {
 
-    // Create a new instance of RequestApi with the provided APIRequestContext
     constructor(private requestContext: APIRequestContext) { }
     private response: APIResponse | undefined;
 

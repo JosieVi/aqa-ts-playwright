@@ -7,7 +7,6 @@ import { logStep } from "utils/reporter.utils";
 
 export class HomeUIService {
 
-    // Initialize the HomePage, CustomersPage, and ProductsPage instances
     homePage: HomePage;
     customersPage: CustomersPage;
     productsPage: ProductsPage;

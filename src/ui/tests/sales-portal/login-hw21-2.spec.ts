@@ -23,9 +23,8 @@ test.describe('[UI] [Sales Portal] [e2e] HW21-2', () => {
             addNewCustomerUIService,
             customersPage
         }) => {
-            // Login as a user v1
+
             /*
-            // Precondition
             const signInPage = new SignInPage(page);
             const homePage = new HomePage(page);
             const customersPage = new CustomersPage(page);
@@ -39,35 +38,29 @@ test.describe('[UI] [Sales Portal] [e2e] HW21-2', () => {
             await customersPage.clickAddNewCustomer();
             await addNewCustomerPage.waitForOpened();
             const data = generateCustomerData();
-    
-            // Action
+
             await addNewCustomerPage.fillInputs(data);
             await addNewCustomerPage.clickSaveNewCustomer();
-    
-            // Assert
+
             await customersPage.waitForOpened();
             await customersPage.waitForNotification(NOTIFICATIONS.CUSTOMER_CREATED);
             */
 
-            // Open the home page and open the Customers module
-            homeUIService.openAsLoggedInUser();
+            await homeUIService.openAsLoggedInUser();
             token = (await page.context().cookies()).find((c) => c.name === "Authorization")!.value;
             await homeUIService.openModule("Customers");
 
-            // Add a new customer and wait for the notification
             await customersUIService.openAddPage();
             const data = generateCustomerData();
             await addNewCustomerUIService.createNewCustomer(data);
             await customersPage.waitForNotification(NOTIFICATIONS.CUSTOMER_CREATED);
 
-            // Specify the expected customer data
             const expectedObject = {
                 email: data.email,
                 name: data.name,
                 country: data.country,
             };
 
-            // Assert that the customer is displayed in the table
             const receivedObject: ICustomerInTable = await customersPage.getFirstCustomerData();
             await expect(receivedObject).toEqual(expectedObject);
         });

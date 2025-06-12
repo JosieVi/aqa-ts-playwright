@@ -1,20 +1,19 @@
-// Description:
-// These interfaces define the structure of customer-related data, including customer details, responses from the API, and metrics related to customers and orders.
-
 import { COUNTRIES } from "data/customers/countries.data";
 import { customersSortField, IResponseFields, sortDirection } from "./api.types";
 import { IProductFromResponse } from "./products.types";
+import { String } from "lodash";
 
 export interface ICustomer {
-    email: string;
+    email?: string;
     name: string;
     country: COUNTRIES;
     city: string;
-    street: string;
+    street: String;
     house: number;
     flat: number;
     phone: string;
     notes?: string;
+    role?: string;
 }
 
 export type ICustomerInTable = Pick<ICustomer, "email" | "country" | "name">;

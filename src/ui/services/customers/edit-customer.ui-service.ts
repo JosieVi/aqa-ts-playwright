@@ -1,4 +1,4 @@
-import { expect, Page, test } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { generateCustomerData } from "data/customers/generate-customer.data";
 import { STATUS_CODES } from "data/status-codes.data";
@@ -10,7 +10,6 @@ import { logStep } from "utils/reporter.utils";
 
 export class EditCustomerUiService {
 
-    // Initialize the EditCustomerPage and CustomersPage instances
     private editCustomerPage: EditCustomerPage;
     private customersPage: CustomersPage;
     constructor(private page: Page) {

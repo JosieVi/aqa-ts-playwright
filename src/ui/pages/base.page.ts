@@ -4,8 +4,6 @@ import { PageHolder } from "./page-holder.page";
 
 export abstract class BasePage extends PageHolder {
 
-    // constructor(protected page: Page) { }
-
     async interceptRequest<T extends unknown[]>(
         url: string,
         triggerAction: (...args: T) => Promise<void>,

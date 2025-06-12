@@ -5,16 +5,16 @@ import { logStep } from "utils/reporter.utils";
 
 export abstract class SalesPortalPage extends BasePage {
 
-  // Locators for elements in the abstract sales portal page
   readonly spinner = this.page.locator(".spinner-border");
   readonly notification = this.page.locator(".toast-body");
 
-  // Unique element to identify the abstract sales portal page
   abstract uniqueElement: Locator;
 
   @logStep("Wait for Page to be opened")
   async waitForOpened() {
-    await expect(this.uniqueElement).toBeVisible();
+    // await this.page.waitForLoadState("domcontentloaded");
+    // await expect(this.uniqueElement).toBeVisible();
+    await this.uniqueElement.waitFor({ state: "visible", timeout: 15000 });
     await this.waitForSpinner();
   }
 
@@ -30,6 +30,8 @@ export abstract class SalesPortalPage extends BasePage {
 
   @logStep("Open Sales Portal")
   async openPortal() {
-    this.page.goto(SALES_PORTAL_URL);
+    // await this.page.goto(SALES_PORTAL_URL);
+    await this.page.goto(SALES_PORTAL_URL, { waitUntil: "load" });
+    await this.page.waitForLoadState('networkidle');
   }
 }

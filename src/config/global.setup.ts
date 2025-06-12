@@ -1,6 +1,3 @@
-// Description:
-// This file contains options for global setup in Playwright tests.
-
 import path from "path";
 import { rimraf } from "rimraf";
 

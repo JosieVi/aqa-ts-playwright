@@ -1,6 +1,3 @@
-// Description:
-// This file contains business steps that can be used in tests, such as logging in as a local user.
-
 import { USER_LOGIN, USER_PASSWORD } from "config/enviroment";
 import { test as base } from "./pages.fixture";
 

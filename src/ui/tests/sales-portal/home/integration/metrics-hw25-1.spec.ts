@@ -1,7 +1,6 @@
 import { defaultMetricsResponse } from "data/metrics.data";
 import { TAGS } from "data/test-tags.data";
 import { expect, test } from "fixtures/ui-services.fixture";
-// import { expect, test } from "fixtures/business-steps.fixture";
 
 const metricsForTests = [
     { name: 'Orders This Year', value: defaultMetricsResponse.Metrics.orders.totalOrders },
@@ -18,16 +17,10 @@ test.describe("[UI] [Home] [Metrics]", async () => {
                 homePage,
                 mock, }) => {
 
-                // Precondition
-                // Mock the metrics response
                 await mock.metrics(defaultMetricsResponse);
 
-                // Open the home page
-                // await loginAsLocalUser();
-                homeUIService.openAsLoggedInUser();
+                await homeUIService.openAsLoggedInUser();
 
-                // Act
-                // Get the metric value from the home page and check it
                 const ordersThisYear = await homePage.getMetrics(name);
                 console.log(`Orders this year: ${ordersThisYear}`);
                 expect.soft(ordersThisYear).toEqual(value);

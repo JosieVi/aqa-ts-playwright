@@ -1,6 +1,3 @@
-// Description:
-// This file contains a list of countries used in the application.
-
 export enum COUNTRIES {
     USA = "USA",
     CANADA = "Canada",

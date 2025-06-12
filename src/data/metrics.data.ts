@@ -1,6 +1,3 @@
-// Description:
-// This is a mock response for the metrics data, which includes total revenue, orders, customers, and products.
-
 import { IMetricsFromResponse } from "types/customer.types";
 
 export const defaultMetricsResponse: IMetricsFromResponse = {

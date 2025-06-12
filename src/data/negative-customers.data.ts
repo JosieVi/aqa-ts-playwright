@@ -1,7 +1,3 @@
-// Description:
-// This file contains negative test cases for customer data validation.
-// It includes various scenarios where customer data is invalid, such as incorrect name, country, city, etc.
-
 import { generateCustomerData } from "./customers/generate-customer.data";
 
 export const negativeTestCases = [

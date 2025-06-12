@@ -1,6 +1,3 @@
-// Description:
-// This file extends the base test fixture to include UI services for the Sales Portal.
-
 import { CustomersUIService } from "ui/services/customers/customers.ui-service";
 import { HomeUIService } from "ui/services/home.ui-service";
 import { SignInUIService } from "ui/services/sign-in.ui-serivice";

@@ -11,11 +11,9 @@ test.describe("[UI] [Products] [Add]", () => {
             productsPage,
             addNewProductPage, }) => {
 
-            // Open the home page and open the Products module
             await homeUIService.openAsLoggedInUser();
             await homeUIService.openModule("Products");
 
-            // Click the "Add New Product" button and add a new product with invalid data
             await productsPage.addNewProductButton.click();
             await addNewProductPage.fillInputs({
                 name: 1231451 as unknown as IProduct["name"],

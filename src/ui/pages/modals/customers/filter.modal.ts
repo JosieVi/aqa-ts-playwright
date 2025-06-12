@@ -1,13 +1,11 @@
-import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { Modal } from "../modal.page";
 import { logStep } from "utils/reporter.utils";
 
 export class FilterModal extends Modal {
 
-    // Unique element to identify the filter modal
     readonly uniqueElement = this.page.locator(`div[role="dialog"]`);
 
-    // locators for elements in the filter modal
     readonly title = this.uniqueElement.locator(".modal-title");
     readonly applyButton = this.uniqueElement.getByRole("button", { name: "Apply" });
     readonly clearFiltersButton = this.uniqueElement.getByRole("button", { name: "Clear Filters" });

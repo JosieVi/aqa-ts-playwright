@@ -1,4 +1,4 @@
-import { expect, Page, test } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import { apiConfig } from "config/api-config";
 import { generateCustomerData } from "data/customers/generate-customer.data";
 import { STATUS_CODES } from "data/status-codes.data";

@@ -1,4 +1,4 @@
-import { Page, test } from "@playwright/test";
+import { Page } from "@playwright/test";
 import { AddNewCustomerPage } from "ui/pages/customers/add-new-customer.page";
 import { CustomerDetailsPage } from "ui/pages/customers/customer-details.page";
 import { CustomersPage } from "ui/pages/customers/customers.page";
@@ -7,7 +7,6 @@ import { logStep } from "utils/reporter.utils";
 
 export class CustomersUIService {
 
-    // Initialize the CustomersPage, AddNewCustomerPage, EditCustomerPage, and CustomerDetailsPage instances
     private customersPage: CustomersPage;
     private addNewCustomerPage: AddNewCustomerPage;
     private editCustomerPage: EditCustomerPage;

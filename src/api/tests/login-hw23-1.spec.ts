@@ -15,7 +15,6 @@ test.describe("[API] [Login]", () => {
 
             const headers = loginResponse.headers;
             const token = headers["authorization"];
-            //const body = await loginResponse.json();
             const expectedUser = {
                 _id: "680d4d7dd006ba3d475ff67b",
                 username: "OlgaMarushkina",

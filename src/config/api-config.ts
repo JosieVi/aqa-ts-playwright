@@ -1,6 +1,3 @@
-// Description: 
-// This file contains the API configuration for the application, including base URL and endpoints.
-
 export const apiConfig = {
     BASE_URL: "https://aqa-course-project.app",
     ENDPOINTS: {

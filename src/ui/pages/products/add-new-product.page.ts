@@ -1,11 +1,9 @@
-import { test } from "@playwright/test";
 import { SalesPortalPage } from "../sales-portal.page";
 import { IProduct } from "types/products.types";
 import { logStep } from "utils/reporter.utils";
 
 export class AddNewProductPage extends SalesPortalPage {
 
-    // Locators for elements in the add new product page
     readonly name = this.page.locator("#inputName");
     readonly price = this.page.locator("#inputPrice");
     readonly amount = this.page.locator("#inputAmount");
@@ -16,7 +14,6 @@ export class AddNewProductPage extends SalesPortalPage {
 
     readonly nameError = this.page.locator("#error-inputName");
 
-    // Unique element to identify the add new product page
     readonly uniqueElement = this.name;
 
     @logStep("Fill Inputs in Add New Product Page")

@@ -8,9 +8,6 @@ import { convertRequestParams } from "utils/request-params.utils";
 
 export class CustomersController {
 
-    // constructor(private request = new RequestApi()) { }
-
-    // Create a new instance of RequestApi with the provided APIRequestContext
     private request: RequestApi;
 
     constructor(context: APIRequestContext) {

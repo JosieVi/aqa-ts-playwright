@@ -20,9 +20,6 @@ test.describe("[UI] [Customers] [Table]", async () => {
       addNewCustomerUIService
     }) => {
 
-      //Precondition
-
-      // Open the home page and create a new customer v1
       /*      
       const homePage = new HomePage(page);
       const customersPage = new CustomersPage(page);
@@ -45,33 +42,20 @@ test.describe("[UI] [Customers] [Table]", async () => {
       await customersPage.waitForNotification(NOTIFICATIONS.CUSTOMER_CREATED);
       */
 
-      // Open the home page and open the Customers module
-      homeUIService.openAsLoggedInUser();
+      await homeUIService.openAsLoggedInUser();
       await homeUIService.openModule("Customers");
 
-      // Add a new customer and wait for the notification
       await customersUIService.openAddPage();
       const data = generateCustomerData();
       await addNewCustomerUIService.createNewCustomer(data);
       await customersPage.waitForNotification(NOTIFICATIONS.CUSTOMER_CREATED);
 
-      //Act
-      // Check that the customer is displayed in the table
       await expect(customersPage.tableRowByEmail(data.email)).toBeVisible();
 
-      //Assert
-      // Check that the customer data matches the expected data v1
-      /* 
-      await expect.soft(customersPage.emailCell(data.email)).toHaveText(data.email);
-      await expect.soft(customersPage.nameCell(data.email)).toHaveText(data.name);
-      await expect.soft(customersPage.countryCell(data.email)).toHaveText(data.country);
-      */
-
-      // Check that the customer data matches the expected data v1
+      // await expect.soft(customersPage.emailCell(data.email)).toHaveText(data.email);
       const actualCustomerData = await customersPage.getCustomerData(data.email);
       expect(actualCustomerData).toEqual(_.pick(data, ["email", "name", "country"]));
 
-      // Delete the customer after checking
       await customersPage.clickTableAction(data.email, "delete");
     });
 
@@ -80,9 +64,7 @@ test.describe("[UI] [Customers] [Table]", async () => {
     async ({
       customersPage,
       homeUIService }) => {
-      //Precondition
 
-      // Open the home page and open the Customers module v1
       /*      
       await page.goto(SALES_PORTAL_URL);
       await page.locator("#emailinput").fill(USER_LOGIN);
@@ -97,11 +79,9 @@ test.describe("[UI] [Customers] [Table]", async () => {
       await customersPage.waitForOpened();
       */
 
-      // Open the home page and open the Customers module
-      homeUIService.openAsLoggedInUser();
+      await homeUIService.openAsLoggedInUser();
       await homeUIService.openModule("Customers");
 
-      // Click the filter button and apply filters for specific countries
       await customersPage.clickFilter();
       await customersPage.filterModal.waitForOpened();
       const countriesToCheck = ["USA", "Belarus", "Germany"];
@@ -110,7 +90,6 @@ test.describe("[UI] [Customers] [Table]", async () => {
       await customersPage.filterModal.waitForClosed();
       await customersPage.waitForOpened();
 
-      // Check that the table contains only customers from the specified countries
       const actualTableData = await customersPage.getTableData();
       expect(
         actualTableData.every((row) => countriesToCheck.includes(row.country)),

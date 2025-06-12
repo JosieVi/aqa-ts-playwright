@@ -7,7 +7,6 @@ import { logStep } from "utils/reporter.utils";
 
 export class ProductsController {
 
-    // Create a new instance of RequestApi with the provided APIRequestContext
     private request: RequestApi;
 
     constructor(context: APIRequestContext) {
